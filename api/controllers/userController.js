@@ -5,7 +5,15 @@ import generateToken from "../utils/generateToken.js";
 // route POST /api/users/auth/
 // @access public
 const authUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Auth User" });
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (user && user.matchPasswords(password)) {
+    generateToken(res, user._id);
+    res.status(201).json({ _id: user._id, email: user.email });
+  } else {
+    res.status(400);
+    throw new Error("Invalid credentials.");
+  }
 });
 
 // @desc Register a new user
