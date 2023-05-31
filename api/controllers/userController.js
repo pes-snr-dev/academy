@@ -27,13 +27,13 @@ const authUser = asyncHandler(async (req, res) => {
 // route POST /api/users
 // @access public
 const registerUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { name, email, password } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
     throw new Error("User already exists.");
   }
-  const user = await User.create({ firstName, lastName, email, password });
+  const user = await User.create({ name, email, password });
   if (user) {
     generateToken(res, user._id);
     res.status(201).json({ _id: user._id, email: user.email });
@@ -61,8 +61,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
   const user = {
     _id: req.user._id,
     email: req.user.email,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
+    name: req.user.name,
   };
   res.status(200).json({ user });
 });
@@ -73,8 +72,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    user.firstName = req.body.firstName || user.firstName;
-    user.lastName = req.body.lastName || user.lastName;
+    user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
 
     const updatedUser = await user.save();
@@ -82,8 +80,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     res.status(200).json({
       _id: updatedUser._id,
       email: updatedUser.email,
-      firstName: updatedUser.firstName,
-      lastName: updatedUser.lastName,
+      name: updatedUser.name,
     });
   } else {
     res.status(404);
