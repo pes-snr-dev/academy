@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  infinite:
+    build:
+      context: .
+    ports:
+      - 8800:8800
+      - 3000:3000
+    env_file:
+      - .env
