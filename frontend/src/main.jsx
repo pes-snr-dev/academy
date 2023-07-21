@@ -11,10 +11,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App.jsx";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+
 import Homepage from "./pages/Homepage.jsx";
-import { CoachProfile, Courses } from "./features/auth/coach";
+import { CoachProfile, Courses, EditProfile } from "./features/auth/coach";
 import PrivateRoute from "./components/PrivateRoute";
 import { ResourceNotFound } from "./pages";
 
@@ -27,7 +26,7 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<CoachProfile />} />
         <Route path="/profile/courses" element={<Courses />} />
-
+        <Route path="/profile/edit" element={<EditProfile />} />
       </Route>
       <Route path="/*" element={<ResourceNotFound />} />
     </Route>
