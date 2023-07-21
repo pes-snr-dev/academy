@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -10,6 +10,8 @@ import {
 import { NavLink } from "react-router-dom";
 
 const ProfileDrawer = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const firstName = userInfo.name.split(" ")[0];
   return (
     <div
       style={{ display: "flex", height: "100%", overflow: "scroll initial" }}
@@ -21,7 +23,7 @@ const ProfileDrawer = () => {
             className="text-decoration-none"
             style={{ color: "inherit" }}
           >
-            Sidebar
+            <small>Hi {firstName}</small>
           </a>
         </CDBSidebarHeader>
 
@@ -39,11 +41,11 @@ const ProfileDrawer = () => {
               to="/profile/courses"
               className={({ isActive }) => (isActive ? "active-style" : "none")}
             >
-              <CDBSidebarMenuItem icon="table">Courses</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="folder">Courses</CDBSidebarMenuItem>
             </NavLink>
             <NavLink
               exact={"true"}
-              to="/profile"
+              to="/profile/edit"
               className={({ isActive }) => (isActive ? "active-style" : "none")}
             >
               <CDBSidebarMenuItem icon="user">Profile page</CDBSidebarMenuItem>
