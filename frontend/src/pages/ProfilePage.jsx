@@ -1,7 +1,8 @@
 import Profile from "../features/auth/components/profile";
+import { CoachProfile } from "../features/auth/coach";
 
 const ProfilePage = () => {
-  return <Profile />;
+  return <CoachProfile />;
 };
 
 export default ProfilePage;

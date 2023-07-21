@@ -14,8 +14,9 @@ import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import Homepage from "./pages/Homepage.jsx";
-import ProfilePage from "./pages/ProfilePage";
+import { CoachProfile, Courses } from "./features/auth/coach";
 import PrivateRoute from "./components/PrivateRoute";
+import { ResourceNotFound } from "./pages";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,9 +24,12 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<Homepage />} />
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/register" element={<RegistrationScreen />} />
-      <Route path='' element={<PrivateRoute />}>
-        <Route path='/profile' element={<ProfilePage />} />
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/profile" element={<CoachProfile />} />
+        <Route path="/profile/courses" element={<Courses />} />
+
       </Route>
+      <Route path="/*" element={<ResourceNotFound />} />
     </Route>
   )
 );
