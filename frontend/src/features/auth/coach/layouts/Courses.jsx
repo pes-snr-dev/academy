@@ -1,60 +1,45 @@
-import { useState } from "react";
-import { Wrapper, CreateCourseModal } from "../components";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { Wrapper, CreateCourseModal, CoursesList } from "../components";
 import { Card, Button } from "react-bootstrap";
+import { useGetCoachCoursesQuery } from "../../../../slices/coursesSlice";
+import { setCourses } from "../../../../slices/coachSlice";
 
 const Courses = () => {
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  // const { userInfo } = useSelector((state) => state.auth);
+  let coachPosts;
+  // try {
+  //   const {
+  //     data: courses,
+  //     isFetching,
+  //     isLoading,
+  //   } = useGetCoachCoursesQuery(userInfo._id, {
+  //     pollingInterval: 3000,
+  //     refetchOnMountOrArgChange: true,
+  //     skip: false,
+  //   });
+  //   coachPosts = courses;
+  // } catch (err) {
+  //   toast.error(err?.data?.message || err.error);
+  // }
+  // useEffect(() => {
+  //   dispatch(setCourses(coachPosts));
+  // }, [coachPosts, dispatch]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  // const { courses } = useSelector((state) => state.coach);
+  // console.log(courses);
+
   return (
     <Wrapper>
       <div className="soft-shadow">
         <h3>My Courses</h3>
-        <ul className="undecorated-links m-0 p-0 d-flex flex-column gap-3">
-          <li>
-            <Card style={{ width: "100%" }}>
-              <Card.Body>
-                <Card.Title>Course Title</Card.Title>
-                <Card.Text>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Facere qui unde cupiditate, voluptatibus veniam maxime quae
-                  vel adipisci cumque ex eveniet, reprehenderit voluptatem
-                  incidunt fugiat? Enim provident sit quaerat maxime!
-                </Card.Text>
-                <ul className="undecorated-links m-0 p-0 gap-2 d-flex justify-content-end">
-                  <li>
-                    <Button variant="primary">Edit</Button>
-                  </li>
-                  <li>
-                    <Button variant="primary">Delete</Button>
-                  </li>
-                </ul>
-              </Card.Body>
-            </Card>
-          </li>
-          <li>
-            <Card style={{ width: "100%" }}>
-              <Card.Body>
-                <Card.Title>Course 2</Card.Title>
-                <Card.Text>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Facere qui unde cupiditate, voluptatibus veniam maxime quae
-                  vel adipisci cumque ex eveniet, reprehenderit voluptatem
-                  incidunt fugiat? Enim provident sit quaerat maxime!
-                </Card.Text>
-                <ul className="undecorated-links m-0 p-0 gap-2 d-flex justify-content-end">
-                  <li>
-                    <Button variant="primary">Edit</Button>
-                  </li>
-                  <li>
-                    <Button variant="primary">Delete</Button>
-                  </li>
-                </ul>
-              </Card.Body>
-            </Card>
-          </li>
-        </ul>
+        {/* {courses ? && <CoursesList courses={courses} />} */}
+        <CoursesList />
       </div>
       <CreateCourseModal show={show} handleClose={handleClose} />
       <div className="position-fixed" style={{ right: "10%", bottom: "10%" }}>
