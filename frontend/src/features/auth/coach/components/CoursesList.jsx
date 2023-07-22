@@ -1,11 +1,13 @@
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Card, Button } from "react-bootstrap";
 import { useGetCoachCoursesQuery } from "../../../../slices/coursesSlice";
 import Loader from "../../../../components/Loader";
+import { setCourses } from "../../../../slices/coachSlice";
 
 const CoursesList = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const {
     data: courses,
@@ -18,6 +20,9 @@ const CoursesList = () => {
     refetchOnMountOrArgChange: true,
     skip: false,
   });
+  useEffect(() => {
+    dispatch(setCourses(courses));
+  }, [courses, dispatch]);
   if (isLoading) {
     return <Loader />;
   } else if (isSuccess) {

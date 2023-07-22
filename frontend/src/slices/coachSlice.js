@@ -3,8 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = { courses: [] };
 
 function updateCoursesState(prev, newData) {
-  // console.log(oldState, newData, "men");
-  // return [...newData];
   return { ...prev, courses: [...prev.courses, ...newData] };
 }
 
@@ -13,7 +11,6 @@ const coachSlice = createSlice({
   initialState,
   reducers: {
     setCourses: (state, action) => {
-      // state.courses = updateCoursesState(state, action.payload);
       state.courses = action.payload;
     },
     removeCourses: (state, action) => {
