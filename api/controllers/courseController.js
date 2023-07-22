@@ -55,7 +55,8 @@ const createCourse = asyncHandler(async (req, res) => {
 });
 
 const getCoachCourses = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
+  id = id.trim();
   const coach = await User.findById(id);
   if (coach) {
     const courses = await Course.find({ coach });
