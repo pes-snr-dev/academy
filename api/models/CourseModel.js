@@ -8,6 +8,7 @@ const CourseSchema = new Schema(
       type: String,
       required: true,
     },
+    coach: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   {
     timestamps: true,
