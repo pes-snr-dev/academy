@@ -46,7 +46,7 @@ const CoursesList = () => {
   } else if (isError) {
     return (
       <div className="alert alert-danger" role="alert">
-        {error}
+        {error?.data?.message || error.error}
       </div>
     );
   }
