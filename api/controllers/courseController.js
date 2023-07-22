@@ -1,5 +1,4 @@
 import asyncHandler from "express-async-handler";
-import mongoose from "mongoose";
 import * as fs from "fs";
 import Course from "../models/CourseModel.js";
 import CourseThumbnail from "../models/CourseThumbnail.js";
@@ -55,4 +54,17 @@ const createCourse = asyncHandler(async (req, res) => {
   }
 });
 
-export { createCourse };
+const getCoachCourses = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const coach = await User.findById(id);
+  if (coach) {
+    const courses = await Course.find({ coach });
+    res.status(200);
+    res.json(courses);
+  } else {
+    res.status(404);
+    throw new Error(`Coach with id ${id} not found`);
+  }
+});
+
+export { createCourse, getCoachCourses };
