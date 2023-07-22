@@ -9,7 +9,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    createCourse: builder.mutation({
+      query: (data) => ({
+        url: `${COURSES_URL}/add/`,
+        method: "POST",
+        body: data.formData,
+        formData: true,
+      }),
+    }),
   }),
 });
 
-export const { useGetCoachCoursesQuery } = userApiSlice;
+export const { useCreateCourseMutation, useGetCoachCoursesQuery } =
+  userApiSlice;

@@ -6,6 +6,7 @@ import User from "../models/userModel.js";
 
 const createCourse = asyncHandler(async (req, res) => {
   const { title, description, coachId } = req.body;
+  console.log(title)
 
   let id = coachId.trim();
   const coach = await User.findById(id);
