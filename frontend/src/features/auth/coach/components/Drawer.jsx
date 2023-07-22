@@ -14,7 +14,7 @@ const ProfileDrawer = () => {
   const firstName = userInfo.name.split(" ")[0];
   return (
     <div
-      style={{ display: "flex", height: "100%", overflow: "scroll initial" }}
+      style={{ display: "flex", height: "auto", overflow: "scroll initial" }}
     >
       <CDBSidebar textColor="#fff" backgroundColor="#333">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
