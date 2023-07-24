@@ -2,8 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = { courses: [] };
 
-function updateCoursesState(prev, newData) {
-  return { ...prev, courses: [...prev.courses, ...newData] };
+function updateCoursesState(prev, course) {
+  // return { ...prev, courses: [...prev.courses, ...course] };
+  // return [...prev, course];
+  return null;
 }
 
 const coachSlice = createSlice({
@@ -16,9 +18,12 @@ const coachSlice = createSlice({
     removeCourses: (state, action) => {
       state.courses = null;
     },
+    updateCourses: (state, action) => {
+      state.courses = action.payload;
+    },
   },
 });
 
-export const { setCourses, removeCourses } = coachSlice.actions;
+export const { setCourses, removeCourses, updateCourses } = coachSlice.actions;
 
 export default coachSlice.reducer;
