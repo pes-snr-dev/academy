@@ -76,7 +76,7 @@ const deleteCourse = asyncHandler(async (req, res) => {
   const course = await Course.findById(id);
   if (course) {
     await course.deleteOne();
-    res.status(200).json({ id: req.params.id });
+    res.status(200).json({ id: req.params.id, status: "OK" });
   } else {
     res.status(404);
     throw new Error(`Course with id ${id} not found`);
