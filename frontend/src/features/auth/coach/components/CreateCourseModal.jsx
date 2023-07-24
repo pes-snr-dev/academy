@@ -38,7 +38,6 @@ const CreateCourseModal = ({ show, handleClose }) => {
   };
 
   const handleFileChange = (file) => {
-    console.log(file);
     setFile(file);
   };
 

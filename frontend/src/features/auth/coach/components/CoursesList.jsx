@@ -1,7 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { Card, Button } from "react-bootstrap";
-import { useGetCoachCoursesQuery } from "../../../../slices/coursesSlice";
+import {
+  useGetCoachCoursesQuery,
+  useDeleteCourseMutation,
+} from "../../../../slices/coursesSlice";
 import Loader from "../../../../components/Loader";
 import { setCourses } from "../../../../slices/coachSlice";
 
@@ -16,13 +21,21 @@ const CoursesList = () => {
     isError,
     error,
   } = useGetCoachCoursesQuery(userInfo._id, {
-    pollingInterval: 3000,
     refetchOnMountOrArgChange: true,
-    skip: false,
   });
+  const [deleteCourse, response] = useDeleteCourseMutation();
+
+  const onDeleteHandler = async (e, course) => {
+    e.preventDefault();
+    deleteCourse(course._id).unwrap();
+  };
+
   useEffect(() => {
+    if (response.isSuccess) {
+      toast("Course deleted successfuly");
+    }
     dispatch(setCourses(courses));
-  }, [courses, dispatch]);
+  }, [courses, dispatch, response.isSuccess]);
   if (isLoading) {
     return <Loader />;
   } else if (isSuccess) {
@@ -39,7 +52,12 @@ const CoursesList = () => {
                     <Button variant="primary">Edit</Button>
                   </li>
                   <li>
-                    <Button variant="primary">Delete</Button>
+                    <Button
+                      variant="primary"
+                      onClick={(e) => onDeleteHandler(e, course)}
+                    >
+                      Delete
+                    </Button>
                   </li>
                 </ul>
               </Card.Body>
@@ -55,6 +73,10 @@ const CoursesList = () => {
       </div>
     );
   }
+};
+
+CoursesList.propTypes = {
+  coursesStateChanged: PropTypes.bool.isRequired,
 };
 
 export default CoursesList;
