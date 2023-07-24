@@ -76,44 +76,38 @@ const uploadSingleFilesMiddleware = (req, res, next) => {
       res.status(400);
       next(new Error(err.message));
     }
-    if (!req.file) {
-      res.status(400);
-      next(new Error("No file uploaded"));
-    }
-
-    // Retrieve uploaded files
     const file = req.file;
-    // console.log(file);
+    if (!file || file === undefined) {
+      res.status(400);
+      next(new Error("Please select a file"));
+    }
     const errors = [];
-
-    // Validate file types and sizes
-
     const allowedTypes = ["image/png", "image/jpg", "image/jpeg"];
     const maxSize = 5 * 1024 * 1024; // 5MB
 
-    if (!allowedTypes.includes(file.mimetype)) {
-      errors.push(
-        `Invalid file type: ${file.originalname}. Accepted formats are images, text files, pdfs and word documents.`
-      );
+    try {
+      if (!allowedTypes.includes(file.mimetype)) {
+        errors.push(
+          `Invalid file type: ${file.originalname}. Accepted formats are images, text files, pdfs and word documents.`
+        );
+      }
+      if (file.size > maxSize) {
+        errors.push(`File too large: ${file.originalname}`);
+      }
+      // Handle validation errors
+      if (errors.length > 0) {
+        // Remove uploaded files
+        fs.unlinkSync(file.path);
+        res.status(400);
+        throw new Error(errors);
+      }
+      // Attach files to the request object
+      req.files = file;
+      // Proceed to the next middleware or route handler
+      next();
+    } catch (error) {
+      next(new Error(error.message));
     }
-
-    if (file.size > maxSize) {
-      errors.push(`File too large: ${file.originalname}`);
-    }
-
-    // Handle validation errors
-    if (errors.length > 0) {
-      // Remove uploaded files
-      fs.unlinkSync(file.path);
-      res.status(400);
-      next(new Error(errors));
-    }
-
-    // Attach files to the request object
-    req.files = file;
-
-    // Proceed to the next middleware or route handler
-    next();
   });
 };
 

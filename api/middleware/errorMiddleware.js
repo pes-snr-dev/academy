@@ -14,6 +14,18 @@ const errorHandler = (err, req, res, next) => {
     message = "Resource not found";
   }
 
+  // Mongoose duplicate key
+  if (err.code === 11000) {
+    message = "Duplicate field value entered";
+    statusCode = 400;
+  }
+
+  // Mongoose validation error
+  if (err.name === "ValidatorError") {
+    message = Object.values(err.error).map((val) => val.message);
+    statusCode = 400;
+  }
+
   return res.status(statusCode).json({
     message: message,
     stack: process.env.NODE_ENV === "production" ? null : err.stack,
