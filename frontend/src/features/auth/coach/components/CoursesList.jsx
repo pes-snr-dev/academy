@@ -23,19 +23,20 @@ const CoursesList = () => {
   } = useGetCoachCoursesQuery(userInfo._id, {
     refetchOnMountOrArgChange: true,
   });
-  const [deleteCourse, response] = useDeleteCourseMutation();
+  const [deleteCourse] = useDeleteCourseMutation();
 
   const onDeleteHandler = async (e, course) => {
     e.preventDefault();
-    deleteCourse(course._id).unwrap();
+    const response = await deleteCourse(course._id).unwrap();
+    console.log(response.status);
+    if (response.status === "OK") {
+      toast("Course deleted successfuly");
+    }
   };
 
   useEffect(() => {
-    if (response.isSuccess) {
-      toast("Course deleted successfuly");
-    }
     dispatch(setCourses(courses));
-  }, [courses, dispatch, response.isSuccess]);
+  }, [courses, dispatch]);
   if (isLoading) {
     return <Loader />;
   } else if (isSuccess) {
@@ -73,10 +74,6 @@ const CoursesList = () => {
       </div>
     );
   }
-};
-
-CoursesList.propTypes = {
-  coursesStateChanged: PropTypes.bool.isRequired,
 };
 
 export default CoursesList;
