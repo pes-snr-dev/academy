@@ -13,7 +13,12 @@ import {
 import App from "./App.jsx";
 
 import Homepage from "./pages/Homepage.jsx";
-import { CoachProfile, Courses, EditProfile } from "./features/auth/coach";
+import {
+  CoachProfile,
+  Courses,
+  EditProfile,
+  EditCoursePage,
+} from "./features/auth/coach";
 import PrivateRoute from "./components/PrivateRoute";
 import { ResourceNotFound } from "./pages";
 
@@ -25,8 +30,11 @@ const router = createBrowserRouter(
       <Route path="/register" element={<RegistrationScreen />} />
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<CoachProfile />} />
-        <Route path="/profile/courses" element={<Courses />} />
         <Route path="/profile/edit" element={<EditProfile />} />
+      </Route>
+      <Route path="courses/" element={<PrivateRoute />}>
+        <Route path="" element={<Courses />} />
+        <Route path="edit/:courseId" element={<EditCoursePage />} />
       </Route>
       <Route path="/*" element={<ResourceNotFound />} />
     </Route>

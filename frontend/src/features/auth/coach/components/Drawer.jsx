@@ -38,7 +38,7 @@ const ProfileDrawer = () => {
             </NavLink>
             <NavLink
               exact={"true"}
-              to="/profile/courses"
+              to="/courses"
               className={({ isActive }) => (isActive ? "active-style" : "none")}
             >
               <CDBSidebarMenuItem icon="folder">Courses</CDBSidebarMenuItem>
