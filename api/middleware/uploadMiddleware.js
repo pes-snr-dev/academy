@@ -78,8 +78,8 @@ const uploadSingleFilesMiddleware = (req, res, next) => {
     }
     const file = req.file;
     if (!file || file === undefined) {
-      res.status(400);
-      next(new Error("Please select a file"));
+      res.status(204);
+      next();
     }
     const errors = [];
     const allowedTypes = ["image/png", "image/jpg", "image/jpeg"];

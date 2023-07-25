@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Card, Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import {
   useGetCoachCoursesQuery,
   useDeleteCourseMutation,
@@ -50,7 +50,9 @@ const CoursesList = () => {
                 <Card.Text>{course.description}</Card.Text>
                 <ul className="undecorated-links m-0 p-0 gap-2 d-flex justify-content-end">
                   <li>
-                    <Button variant="primary">Edit</Button>
+                    <LinkContainer to={`/courses/edit/${course._id}/`}>
+                      <Button variant="primary">Edit</Button>
+                    </LinkContainer>
                   </li>
                   <li>
                     <Button
@@ -70,7 +72,7 @@ const CoursesList = () => {
   } else if (isError) {
     return (
       <div className="alert alert-danger" role="alert">
-        {error?.data?.message || error.error}
+        {error?.data?.message || error.error || "Something went wrong!"}
       </div>
     );
   }
