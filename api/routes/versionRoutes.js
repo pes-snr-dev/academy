@@ -1,8 +1,11 @@
 import express from "express";
-import { createVersion } from "../controllers/versionController.js";
+import {
+  createVersion,
+  getVersions,
+} from "../controllers/versionController.js";
 
 const router = express.Router();
 
-router.post("/", createVersion);
+router.route("/").post(createVersion).get(getVersions);
 
 export default router;

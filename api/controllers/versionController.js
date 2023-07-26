@@ -15,4 +15,12 @@ const createVersion = asyncHandler(async (req, res) => {
   }
 });
 
-export { createVersion };
+const getVersions = asyncHandler(async (req, res) => {
+  const versions = await Version.find({}).select("_id title abbreviation");
+  if (versions) {
+    res.status(200).json(versions);
+  } else {
+    res.status(404).json({ message: "No versions found" });
+  }
+});
+export { createVersion, getVersions };
