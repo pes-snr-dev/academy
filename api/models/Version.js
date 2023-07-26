@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const versionSchema = new Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String, required: true, unique: true },
     abbreviation: {
       type: String,
       required: true,
