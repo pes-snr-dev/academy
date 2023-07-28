@@ -2,12 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = { courses: [] };
 
-function updateCoursesState(prev, course) {
-  // return { ...prev, courses: [...prev.courses, ...course] };
-  // return [...prev, course];
-  return null;
-}
-
 const coachSlice = createSlice({
   name: "coach",
   initialState,

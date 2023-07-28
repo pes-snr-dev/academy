@@ -1,7 +1,7 @@
 import { apiSlice } from "./apiSlice";
 const COURSES_URL = "/api/courses";
 
-export const userApiSlice = apiSlice.injectEndpoints({
+export const coursesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCoachCourses: builder.query({
       query: (id) => ({
@@ -61,4 +61,4 @@ export const {
   useGetCourseByIdQuery,
   useGetCourseThumbnailQuery,
   useUpdateCourseMutation,
-} = userApiSlice;
+} = coursesApiSlice;

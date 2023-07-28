@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useGetCourseByIdQuery } from "../../../../slices/coursesSlice";
 import Loader from "../../../../components/Loader";
-import { CourseHero } from "../components";
+import { CourseHero, Chapters } from "../components";
 
 const EditCourse = () => {
   const { courseId } = useParams();
@@ -19,7 +19,12 @@ const EditCourse = () => {
   if (isLoading) {
     return <Loader />;
   } else if (isSuccess) {
-    return <CourseHero course={course} />;
+    return (
+      <>
+        <CourseHero course={course} />
+        <Chapters course={course._id} />
+      </>
+    );
   } else if (isError) {
     return (
       <div className="alert alert-danger" role="alert">
