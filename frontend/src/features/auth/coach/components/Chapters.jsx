@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Col, Row, Button } from "react-bootstrap";
-import { FaPlus, FaInfoCircle } from "react-icons/fa";
+import { FaPlus, FaInfoCircle, FaEllipsisH } from "react-icons/fa";
+import { LinkContainer } from "react-router-bootstrap";
+import Navbar from "react-bootstrap/Navbar";
 import CreateChapterModal from "./CreateChapterModal";
 import { useGetChaptersQuery } from "../../../../slices/chaptersSlice";
 import Loader from "../../../../components/Loader";
+import { setCourseChapters } from "../../../../slices/courseChaptersSlice";
 
 import "./Common.css";
 
 const Chapters = ({ course }) => {
+  const dispatch = useDispatch();
+
   const {
     data: chapters,
     isLoading,
@@ -18,8 +24,14 @@ const Chapters = ({ course }) => {
   } = useGetChaptersQuery(course, {
     refetchOnMountOrArgChange: true,
   });
-  const [show, setShow] = useState(false);
 
+  useEffect(() => {
+    let data = {};
+    data[course] = chapters;
+    dispatch(setCourseChapters(chapters));
+  }, [chapters, course, dispatch]);
+
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
@@ -37,7 +49,7 @@ const Chapters = ({ course }) => {
             <>
               {chapters.map((chapter, index) => (
                 <div
-                  className="d-flex position-relative mb-4 bg-light border p-2"
+                  className="d-flex position-relative mb-4 bg-light border p-2 hoverable"
                   key={index}
                 >
                   <div>
@@ -46,9 +58,14 @@ const Chapters = ({ course }) => {
                       Description <br></br>
                       {chapter.description ? chapter.description : "..."}
                     </p>
-                    <a href="#" className="stretched-link">
-                      More..
-                    </a>
+                    <LinkContainer
+                      to={`/courses/chapter/${chapter._id}/edit/`}
+                      className="stretched-link"
+                    >
+                      <Navbar.Text>
+                        <FaEllipsisH size={25} />
+                      </Navbar.Text>
+                    </LinkContainer>
                   </div>
                 </div>
               ))}

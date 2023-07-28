@@ -38,4 +38,17 @@ const getCourseVersionChapters = asyncHandler(async (req, res) => {
   }
 });
 
-export { createChapter, getCourseVersionChapters };
+const getChapterById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const chapter = await Chapter.findById(id).select(
+    "_id title description course"
+  );
+  if (chapter) {
+    res.status(200).json(chapter);
+  } else {
+    res.status(404).json({ message: "No chapters found" });
+  }
+});
+
+export { createChapter, getCourseVersionChapters, getChapterById };
