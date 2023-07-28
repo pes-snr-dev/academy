@@ -7,3 +7,6 @@ export { default as CourseHero } from "./CourseHero.jsx";
 export { default as VersionTabs } from "./VersionTabs.jsx";
 export { default as CreateChapterModal } from "./CreateChapterModal.jsx";
 export { default as Chapters } from "./Chapters.jsx";
+export { default as ChapterHero } from "./ChapterHero.jsx";
+export { default as ChapterHeroIfState } from "./ChapterHeroIfState.jsx";
+export { default as ChapterHeroIfNotState } from "./ChapterHeroIfNotState.jsx";

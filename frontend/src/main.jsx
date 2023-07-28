@@ -18,6 +18,7 @@ import {
   Courses,
   EditProfile,
   EditCoursePage,
+  EditChapterPage,
 } from "./features/auth/coach";
 import PrivateRoute from "./components/PrivateRoute";
 import { ResourceNotFound } from "./pages";
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       <Route path="courses/" element={<PrivateRoute />}>
         <Route path="" element={<Courses />} />
         <Route path="edit/:courseId" element={<EditCoursePage />} />
+        <Route path="chapter/:chapterId/edit/" element={<EditChapterPage />} />
       </Route>
       <Route path="/*" element={<ResourceNotFound />} />
     </Route>
