@@ -47,11 +47,9 @@ const CourseHero = ({ course }) => {
           formData: formData,
         }).unwrap();
         isLoading = response.isLoading;
-        // if (response.isSuccess) {
-          setIsEditingCourseInfo(false);
-          isLoading = response.isSuccess;
-          toast.success("Course updated successfuly.");
-        // }
+        setIsEditingCourseInfo(false);
+        isLoading = response.isSuccess;
+        toast.success("Course updated successfuly.");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }

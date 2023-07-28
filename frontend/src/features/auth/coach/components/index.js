@@ -4,3 +4,6 @@ export { default as EditProfileComponent } from "./EditProfile.jsx";
 export { default as CreateCourseModal } from "./CreateCourseModal.jsx";
 export { default as CoursesList } from "./CoursesList.jsx";
 export { default as CourseHero } from "./CourseHero.jsx";
+export { default as VersionTabs } from "./VersionTabs.jsx";
+export { default as CreateChapterModal } from "./CreateChapterModal.jsx";
+export { default as Chapters } from "./Chapters.jsx";

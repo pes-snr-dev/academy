@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import versionRoutes from "./routes/versionRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
+import chapterRoutes from "./routes/chapterRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
 
@@ -27,6 +28,7 @@ app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")));
 app.use("/api/users", userRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/versions", versionRoutes);
+app.use("/api/chapters", chapterRoutes);
 
 app.get("/", (req, res) => res.send("Server is ready!"));
 

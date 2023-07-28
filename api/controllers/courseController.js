@@ -33,7 +33,7 @@ const uploadThumbnail = async (course, req, res) => {
       });
     } else {
       res.status(500);
-      throw new Error("Error course thumbnail to the database");
+      throw new Error("Error adding the course thumbnail to the database");
     }
   }
 };
