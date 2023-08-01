@@ -3,6 +3,7 @@ import { Card, Row, Col, Button } from "react-bootstrap";
 import { useGetChapterVideosQuery } from "../../../../slices/chaptersSlice";
 import Loader from "../../../../components/Loader";
 import Ratio from "react-bootstrap/Ratio";
+import ReactPlayer from "react-player";
 
 const Videos = ({ chapterId, versionId }) => {
   let versionVideos;
@@ -35,13 +36,12 @@ const Videos = ({ chapterId, versionId }) => {
             versionVideos.map((video, index) => (
               <Card key={index} style={{ width: "24%" }} className="mb-2">
                 <Ratio aspectRatio="16x9">
-                  <video width="320" height="240" controls>
-                    <source
-                      src={`http://localhost:8800/${video.path}`}
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
+                  <ReactPlayer
+                    controls={true}
+                    url={`http://localhost:8800/${video.path}`}
+                    width="100%"
+                    height="100%"
+                  />
                 </Ratio>
                 <Card.Body>
                   <Card.Text>Introduction</Card.Text>
