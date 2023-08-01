@@ -78,44 +78,44 @@ const uploadSingleFilesMiddleware = (req, res, next) => {
     }
     const file = req.file;
     if (!file || file === undefined) {
-      res.status(204);
       next();
-    }
-    const errors = [];
-    const allowedTypes = [
-      "image/webp",
-      "image/tiff",
-      "image/svg+xml",
-      "image/png",
-      "image/jpeg",
-      "image/vnd.microsoft.icon",
-      "image/gif",
-      "image/bmp",
-    ];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    } else {
+      const errors = [];
+      const allowedTypes = [
+        "image/webp",
+        "image/tiff",
+        "image/svg+xml",
+        "image/png",
+        "image/jpeg",
+        "image/vnd.microsoft.icon",
+        "image/gif",
+        "image/bmp",
+      ];
+      const maxSize = 5 * 1024 * 1024; // 5MB
 
-    try {
-      if (!allowedTypes.includes(file.mimetype)) {
-        errors.push(
-          `Invalid file type: ${file.originalname}. Accepted formats are images, text files, pdfs and word documents.`
-        );
+      try {
+        if (!allowedTypes.includes(file.mimetype)) {
+          errors.push(
+            `Invalid file type: ${file.originalname}. Accepted formats are images, text files, pdfs and word documents.`
+          );
+        }
+        if (file.size > maxSize) {
+          errors.push(`File too large: ${file.originalname}`);
+        }
+        // Handle validation errors
+        if (errors.length > 0) {
+          // Remove uploaded files
+          fs.unlinkSync(file.path);
+          res.status(400);
+          throw new Error(errors);
+        }
+        // Attach files to the request object
+        req.files = file;
+        // Proceed to the next middleware or route handler
+        next();
+      } catch (error) {
+        next(new Error(error.message));
       }
-      if (file.size > maxSize) {
-        errors.push(`File too large: ${file.originalname}`);
-      }
-      // Handle validation errors
-      if (errors.length > 0) {
-        // Remove uploaded files
-        fs.unlinkSync(file.path);
-        res.status(400);
-        throw new Error(errors);
-      }
-      // Attach files to the request object
-      req.files = file;
-      // Proceed to the next middleware or route handler
-      next();
-    } catch (error) {
-      next(new Error(error.message));
     }
   });
 };

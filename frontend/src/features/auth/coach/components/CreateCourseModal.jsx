@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
@@ -13,7 +13,6 @@ const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
 
 const CreateCourseModal = ({ show, handleClose }) => {
   const { userInfo } = useSelector((state) => state.auth);
-  const formRef = useRef();
   const [createCourse, { isLoading }] = useCreateCourseMutation();
 
   const [title, setTitle] = useState("");
@@ -30,7 +29,9 @@ const CreateCourseModal = ({ show, handleClose }) => {
     try {
       const res = await createCourse({ formData: formData }).unwrap();
       toast.success(`${res.title} has been created successfuly.`);
-      formRef.current.reset();
+      setTitle("");
+      setDescription("");
+      setFile(null);
       handleClose(true);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -48,7 +49,7 @@ const CreateCourseModal = ({ show, handleClose }) => {
           <Modal.Title>Add Course</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form ref={formRef}>
+          <Form>
             <Form.Group className="mb-3" controlId="courseForm.TitleControl">
               <Form.Label>Course Title</Form.Label>
               <Form.Control
