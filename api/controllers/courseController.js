@@ -7,13 +7,11 @@ import CourseThumbnail from "../models/CourseThumbnail.js";
 import User from "../models/userModel.js";
 
 const uploadThumbnail = async (course, req, res) => {
-  if (req.files) {
+  if (req.files && req.files !== "undefined") {
     let thumbnail = req.files;
-
     const filePath = `uploads/${thumbnail.filename}`;
     fs.rename(thumbnail.path, filePath, (err) => {
       if (err) {
-        // Handle error appropriately and send an error response
         res.status(500);
         throw new Error("Failed to upload the file");
       }
@@ -27,6 +25,7 @@ const uploadThumbnail = async (course, req, res) => {
     if (image) {
       res.status(200).json({
         _id: course._id,
+        thumbnail: image.filename,
         title: course.title,
         createdAt: course.createdAt,
         updatedAt: course.updatedAt,
@@ -35,6 +34,15 @@ const uploadThumbnail = async (course, req, res) => {
       res.status(500);
       throw new Error("Error adding the course thumbnail to the database");
     }
+  } else {
+    res.status(200).json({
+      _id: course._id,
+      thumbnail: "",
+      title: course.title,
+      createdAt: course.createdAt,
+      updatedAt: course.updatedAt,
+    });
+    // return;
   }
 };
 
