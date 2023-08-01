@@ -3,13 +3,17 @@ const { Schema } = mongoose;
 
 const ChapterVideoSchema = new Schema(
   {
+    title: {
+      type: String,
+      required: [true, "Please provide a title for this video."],
+    },
     filename: {
       type: String,
       required: [true, "Please provide a name for this video."],
     },
     path: {
       type: String,
-      required: [true, "Please provide a name for this video."],
+      required: [true, "Please provide a path for this video."],
     },
     type: {
       type: String,

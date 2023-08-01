@@ -4,7 +4,9 @@ import ChapterVideo from "../models/ChapterVideo.js";
 
 const uploadChapterVideo = asyncHandler(async (req, res) => {
   const { chapter, version } = req.params;
-  console.log(chapter, version);
+  const { title } = req.body;
+
+  console.log(chapter, version, title)
 
   if (req.files) {
     let video = req.files;
@@ -17,6 +19,7 @@ const uploadChapterVideo = asyncHandler(async (req, res) => {
       }
     });
     const videoObject = await ChapterVideo.create({
+      title: title,
       filename: video.filename,
       type: video.mimetype,
       path: req.file.path,
@@ -27,6 +30,8 @@ const uploadChapterVideo = asyncHandler(async (req, res) => {
     if (videoObject) {
       res.status(200).json({
         _id: videoObject._id,
+        title: videoObject.title,
+        type: videoObject.type,
         filename: videoObject.filename,
         path: videoObject.path,
         createdAt: chapter.createdAt,
@@ -42,9 +47,8 @@ const uploadChapterVideo = asyncHandler(async (req, res) => {
 const getChapterVideos = asyncHandler(async (req, res) => {
   let { id } = req.params;
   const videos = await ChapterVideo.find({ chapter: id }).select(
-    "filename path type version"
+    "title filename path type version"
   );
-  // console.log('wueh')
   if (videos) {
     res.status(200).json(videos);
   } else {
