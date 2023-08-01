@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { useGetVersionsQuery } from "../../../../slices/versionSlice";
 import Loader from "../../../../components/Loader";
-import Chapters from "./Chapters";
+import Videos from "./Videos";
 
-const VersionTabs = () => {
-  
+const VersionTabs = ({ chapterId }) => {
   const [key, setKey] = useState("");
   const {
     data: versions,
@@ -36,7 +36,7 @@ const VersionTabs = () => {
       >
         {versions.map((version, index) => (
           <Tab key={index} eventKey={version._id} title={version.title}>
-            {/* <Chapters version={version.title} /> */}
+            <Videos chapterId={chapterId} versionId={version._id} />
           </Tab>
         ))}
       </Tabs>
@@ -48,6 +48,10 @@ const VersionTabs = () => {
       </div>
     );
   }
+};
+
+VersionTabs.propTypes = {
+  chapterId: PropTypes.string.isRequired,
 };
 
 export default VersionTabs;

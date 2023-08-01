@@ -12,7 +12,7 @@ const EditChapterPage = () => {
   return (
     <>
       <ChapterHero currentChapter={chapter} chapterId={chapterId} />
-      <VersionTabs />
+      <VersionTabs chapterId={chapterId} />
     </>
   );
 };

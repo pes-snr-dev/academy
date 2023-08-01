@@ -26,6 +26,13 @@ export const chaptersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Chapter"],
     }),
+    getChapterVideos: builder.query({
+      query: (id) => ({
+        url: `${CHAPTER_URL}/${id}/videos`,
+        method: "GET",
+      }),
+      providesTags: ["Chapter", "ChapterVideo"],
+    }),
   }),
 });
 
@@ -33,4 +40,5 @@ export const {
   useCreateChapterMutation,
   useGetChaptersQuery,
   useGetChapterQuery,
+  useGetChapterVideosQuery,
 } = chaptersApiSlice;
