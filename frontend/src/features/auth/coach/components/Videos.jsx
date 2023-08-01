@@ -1,11 +1,20 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Card, Row, Col, Button } from "react-bootstrap";
-import { useGetChapterVideosQuery } from "../../../../slices/chaptersSlice";
-import Loader from "../../../../components/Loader";
 import Ratio from "react-bootstrap/Ratio";
 import ReactPlayer from "react-player";
+import { FaPlus, FaEdit } from "react-icons/fa";
+
+import CreateChapterVideoModal from "./ChapterVideoModal";
+import { useGetChapterVideosQuery } from "../../../../slices/chaptersSlice";
+import Loader from "../../../../components/Loader";
+import "./Common.css";
 
 const Videos = ({ chapterId, versionId }) => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   let versionVideos;
   const {
     data: videos,
@@ -29,28 +38,44 @@ const Videos = ({ chapterId, versionId }) => {
     return <Loader />;
   } else if (isSuccess) {
     return (
-      <Row>
-        <Col className="d-flex" style={{ flexWrap: "wrap", gap: "1.25%" }}>
-          {!versionVideos && <p>No videos</p>}
-          {versionVideos &&
-            versionVideos.map((video, index) => (
-              <Card key={index} style={{ width: "24%" }} className="mb-2">
-                <Ratio aspectRatio="16x9">
-                  <ReactPlayer
-                    controls={true}
-                    url={`http://localhost:8800/${video.path}`}
-                    width="100%"
-                    height="100%"
-                  />
-                </Ratio>
-                <Card.Body>
-                  <Card.Text>Introduction</Card.Text>
-                  <Button variant="primary">Edit Video</Button>
-                </Card.Body>
-              </Card>
-            ))}
-        </Col>
-      </Row>
+      <>
+        <Row>
+          <Col className="d-flex" style={{ flexWrap: "wrap", gap: "1.25%" }}>
+            {!versionVideos && <p>No videos</p>}
+            {versionVideos &&
+              versionVideos.map((video, index) => (
+                <Card key={index} style={{ width: "24%" }} className="mb-2">
+                  <Ratio aspectRatio="16x9">
+                    <ReactPlayer
+                      controls={true}
+                      url={`http://localhost:8800/${video.path}`}
+                      width="100%"
+                      height="100%"
+                    />
+                  </Ratio>
+                  <Card.Body>
+                    <Card.Text>{video.title}</Card.Text>
+                    <FaEdit size={25} />
+                  </Card.Body>
+                </Card>
+              ))}
+          </Col>
+        </Row>
+        <CreateChapterVideoModal
+          show={show}
+          handleClose={handleClose}
+          chapterId={chapterId}
+          versionId={versionId}
+        />
+        <div
+          className="position-fixed"
+          style={{ right: "15%", bottom: "10%", zIndex: "1050" }}
+        >
+          <Button variant="primary btn-circle" onClick={handleShow}>
+            <FaPlus size={30} />
+          </Button>
+        </div>
+      </>
     );
   } else if (isError) {
     return (

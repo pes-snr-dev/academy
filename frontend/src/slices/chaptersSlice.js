@@ -33,6 +33,15 @@ export const chaptersApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Chapter", "ChapterVideo"],
     }),
+    createChapterVideo: builder.mutation({
+      query: (data) => ({
+        url: `${CHAPTER_URL}/${data.chapterId}/${data.versionId}/videos`,
+        method: "POST",
+        body: data.formData,
+        formData: true,
+      }),
+      invalidatesTags: ["Chapter"],
+    }),
   }),
 });
 
@@ -41,4 +50,5 @@ export const {
   useGetChaptersQuery,
   useGetChapterQuery,
   useGetChapterVideosQuery,
+  useCreateChapterVideoMutation,
 } = chaptersApiSlice;
