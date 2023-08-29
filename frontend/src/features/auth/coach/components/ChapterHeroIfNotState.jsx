@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Row, Col } from "react-bootstrap";
-
 import Loader from "../../../../components/Loader";
+import FetchError from "../../../../components/FetchError";
 import { useGetChapterQuery } from "../../../../slices/chaptersSlice";
 import ChapterEditForm from "./ChapterEditForm";
 
@@ -16,21 +16,15 @@ const ChapterHeroIfNotState = ({ chapterId }) => {
     refetchOnMountOrArgChange: true,
   });
 
+  const currentView = {
+    isLoading: <Loader />,
+    isSuccess: <ChapterEditForm chapter={chapter} />,
+    isError: <FetchError error={error} />,
+  }[(isError, isLoading, isSuccess)];
+
   return (
     <Row>
-      <Col>
-        {isLoading && <Loader />}
-        {isSuccess && (
-          <>
-            <ChapterEditForm chapter={chapter} />
-          </>
-        )}
-        {isError && (
-          <div className="alert alert-danger" role="alert">
-            {error?.data?.message || error.error || "Something went wrong!"}
-          </div>
-        )}
-      </Col>
+      <Col>{currentView}</Col>
     </Row>
   );
 };
