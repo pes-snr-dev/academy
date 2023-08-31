@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>home</div>;
+  return <section className="container">Home</section>;
 }

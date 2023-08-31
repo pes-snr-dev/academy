@@ -1,33 +1,42 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.flex-center {
-  @apply flex justify-center items-center;
+.no-underline,
+.no-underline:hover,
+.no-underline:active,
+.no-underline:visited,
+.no-underline:link {
+  text-decoration: none !important;
 }
 
-.flex-start {
-  @apply flex justify-start items-start;
+.desc {
+  margin-top: 1.25rem;
+  max-width: 42rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
-.flex-end {
-  @apply flex justify-end items-center;
+.custom-highlight-0:focus {
+  outline: 0px none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-.flex-between {
-  @apply flex justify-between items-center;
+.cursor-pointer {
+  cursor: pointer;
 }
 
-.black_btn {
-  @apply rounded-full border border-black bg-black py-1.5 px-5 text-white transition-all hover:bg-white hover:text-black text-center text-sm font-inter flex items-center justify-center;
+.bg-none {
+  background-color: unset !important;
 }
 
-.outline_btn {
-  @apply rounded-full border border-black bg-transparent py-1.5 px-5 text-black transition-all hover:bg-black hover:text-white text-center text-sm font-inter flex items-center justify-center;
+:focus {
+  outline: 0 !important;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }
 
-.app,
-nav {
-  padding: 0 15%;
+@media (min-width: 640px) {
+  .desc {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
 }
