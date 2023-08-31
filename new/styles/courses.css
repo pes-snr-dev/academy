@@ -1,0 +1,8 @@
+/* Feed Component */
+.feed {
+  @apply mt-4 mx-auto w-full  flex justify-center items-center flex-col gap-2;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: inherit;
+}

@@ -1,0 +1,10 @@
+$primary: #c3de48;
+$secondary: #7715b0;
+$body-color: #2c4251ff;
+$input-box-shadow: none;
+// $input-focus-box-shadow: none;
+$enable-rounded: false;
+$font-family-base: var(--inter), sans-serif;
+$font-size-base: 1.1rem;
+
+@import "../node_modules/bootstrap/scss/bootstrap";

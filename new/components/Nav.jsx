@@ -1,11 +1,12 @@
 "use client";
-
+import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
+import { FaSignInAlt, FaSignOutAlt, FaUserAlt } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
-const Nav = () => {
+const Header = () => {
   const { data: session } = useSession();
 
   const [providers, setProviders] = useState(null);
@@ -19,121 +20,82 @@ const Nav = () => {
   }, []);
 
   return (
-    <nav className="flex-between w-full mb-16 bg-gray-50 py-9 flex-center">
-      <Link href="/" className="flex gap-2 flex-center">
-        <Image
-          src="/assets/images/logo.png"
-          alt="logo"
-          width={50}
-          height={50}
-          className="object-contain"
-        />
-        <p className="uppercase">PES Academy</p>
-      </Link>
-
-      {/* Desktop Navigation */}
-      <div className="sm:flex hidden">
-        {session?.user ? (
-          <div className="flex gap-3 md:gap-5">
-            <Link href="/create-prompt" className="black_btn">
-              Browse Courses
-            </Link>
-
-            <button type="button" onClick={signOut} className="outline_btn">
-              Sign Out
-            </button>
-
-            <Link href="/profile">
-              <Image
-                src={session?.user.image}
-                width={37}
-                height={37}
-                className="rounded-full"
-                alt="profile"
+    <header>
+      <Navbar bg="light" variant="light" expand="lg" collapseOnSelect>
+        <Container>
+          <Link href="/" className="no-underline">
+            <Navbar.Brand>
+              <img
+                src="/assets/images/logo.png"
+                alt="logo"
+                width="auto"
+                height={20}
+                className="me-2"
               />
-            </Link>
-          </div>
-        ) : (
-          <>
-            {providers &&
-              Object.values(providers).map((provider) => (
-                <button
-                  type="button"
-                  key={provider.name}
-                  onClick={() => {
-                    signIn(provider.id);
-                  }}
-                  className="black_btn"
-                >
-                  Sign in
-                </button>
-              ))}
-          </>
-        )}
-      </div>
-
-      {/* Mobile Navigation */}
-      <div className="sm:hidden flex relative">
-        {session?.user ? (
-          <div className="flex">
-            <Image
-              src={session?.user.image}
-              width={37}
-              height={37}
-              className="rounded-full"
-              alt="profile"
-              onClick={() => setToggleDropdown(!toggleDropdown)}
-            />
-
-            {toggleDropdown && (
-              <div className="dropdown">
-                <Link
-                  href="/profile"
-                  className="dropdown_link"
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  My Profile
-                </Link>
-                <Link
-                  href="/create-prompt"
-                  className="dropdown_link"
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  Create Prompt
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setToggleDropdown(false);
-                    signOut();
-                  }}
-                  className="mt-5 w-full black_btn"
-                >
-                  Sign Out
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <>
-            {providers &&
-              Object.values(providers).map((provider) => (
-                <button
-                  type="button"
-                  key={provider.name}
-                  onClick={() => {
-                    signIn(provider.id);
-                  }}
-                  className="black_btn"
-                >
-                  Sign in
-                </button>
-              ))}
-          </>
-        )}
-      </div>
-    </nav>
+              <span className="text-uppercase">PES Academy</span>
+            </Navbar.Brand>
+          </Link>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ms-auto">
+              <Button href="/courses" variant="secondary rounded-pill">
+                Browse{" "}
+              </Button>
+              {session?.user ? (
+                <>
+                  <NavDropdown
+                    title={
+                      <Image
+                        src={session?.user.image}
+                        width={25}
+                        height={25}
+                        className="rounded-circle"
+                        alt="profile"
+                      />
+                    }
+                    id="username"
+                  >
+                    <Link href="/profile" className="no-underline">
+                      <NavDropdown.Item className="d-flex align-items-center gap-2">
+                        <FaUserAlt />
+                        Profile
+                      </NavDropdown.Item>
+                    </Link>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        setToggleDropdown(false);
+                        signOut();
+                      }}
+                      className="d-flex align-items-center gap-2"
+                    >
+                      <FaSignOutAlt />
+                      <span>Logout</span>
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
+              ) : (
+                <>
+                  {providers &&
+                    Object.values(providers).map((provider) => (
+                      <Button
+                        variant="primary"
+                        className="nav-link"
+                        key={provider.name}
+                        onClick={() => {
+                          signIn(provider.id);
+                        }}
+                      >
+                        <FaSignInAlt /> Sign In
+                      </Button>
+                    ))}
+                </>
+              )}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </header>
   );
 };
 
-export default Nav;
+export default Header;
