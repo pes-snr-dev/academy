@@ -38,8 +38,27 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <NavDropdown title="Courses" id="courses">
+                <NavDropdown.Item>
+                  <Link href="/courses/random-id-1" className="no-underline">
+                    Unit Economics
+                  </Link>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item>
+                  <Link href="/courses/random-id-2" className="no-underline">
+                    Due Diligence
+                  </Link>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item>
+                  <Link href="/courses/random-id-3" className="no-underline">
+                    Pricing
+                  </Link>
+                </NavDropdown.Item>
+              </NavDropdown>
               <Button href="/courses" variant="secondary rounded-pill">
-                Browse{" "}
+                Browse
               </Button>
               {session?.user ? (
                 <>
