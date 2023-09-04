@@ -1,0 +1,37 @@
+.slick-prev:before {
+  color: black;
+}
+.slick-next:before {
+  color: black;
+}
+
+/* .slick-slide {
+  margin: 0 27px;
+}
+
+.slick-list {
+  margin: 0 -27px;
+} */
+
+.slick-slide,
+.slick-clone {
+  width: auto !important;
+  margin-right: 20px;
+}
+
+.slick-track {
+  /* margin: auto; */
+  margin-left: 0;
+  margin-right: 0;
+  /* width: auto !important; */
+  display: flex;
+
+  align-items: flex-start !important;
+}
+
+.slick-track,
+.slick-list {
+  perspective: 2000;
+  -webkit-perspective: 2000;
+  -webkit-backface-visibility: hidden;
+}
