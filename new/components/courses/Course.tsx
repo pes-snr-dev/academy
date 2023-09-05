@@ -4,10 +4,10 @@ import Image from "next/image";
 import React from "react";
 import { userType } from "@types";
 
-const Course = ({ image, title, author, rating, cost }: userType) => {
+const Course = ({ image, title, author, rating, cost, size }: userType) => {
   let ratings = Array.from(Array(rating).keys());
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: `${size}` }}>
       <Image
         src={image}
         className="card-img-top"
