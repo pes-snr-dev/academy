@@ -1,5 +1,13 @@
 "use client";
-import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Container,
+  NavDropdown,
+  Button,
+  Row,
+  Col,
+} from "react-bootstrap";
 import { FaSignInAlt, FaSignOutAlt, FaUserAlt } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
@@ -74,8 +82,11 @@ const Header = () => {
                     }
                     id="username"
                   >
-                    <Link href="/profile" className="no-underline">
-                      <NavDropdown.Item className="d-flex align-items-center gap-2">
+                    <Link href="/profile/coach/" className="no-underline">
+                      <NavDropdown.Item
+                        className="d-flex align-items-center gap-2"
+                        href="/profile/coach/"
+                      >
                         <FaUserAlt />
                         Profile
                       </NavDropdown.Item>
