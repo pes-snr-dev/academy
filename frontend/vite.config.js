@@ -6,8 +6,9 @@ import path from "path";
 dotenv.config();
 
 export default ({ mode }) => {
-  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
-  const port = parseInt(process.env.PORT);
+  // process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+  // const port = parseInt(process.env.PORT);
+  const port = 8500;
   return defineConfig({
     plugins: [react()],
     server: {

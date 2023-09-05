@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 
 const ProfileDrawer = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const firstName = userInfo.name.split(" ")[0];
+  const firstName = userInfo.name?.split(" ")[0];
   return (
     <div
       style={{ display: "flex", height: "auto", overflow: "scroll initial" }}
