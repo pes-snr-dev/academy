@@ -4,7 +4,7 @@ import { FaHome, FaUser, FaFolder } from "react-icons/fa";
 
 const Drawer = () => {
   return (
-    <div className="col-auto col-md-3 col-xl-3 px-sm-2 px-0 bg-dark">
+    <div className="col-auto col-md-3 col-xl-3 px-sm-2 px-0 bg-dark ">
       <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white">
         <a
           href="/"
@@ -36,7 +36,7 @@ const Drawer = () => {
           </li>
           <li className="nav-item mb-4">
             <Link
-              href="/profile/coach/dashboard"
+              href="/profile/coach/edit"
               className="nav-link align-middle p-0 d-flex align-items-center"
             >
               <FaUser />

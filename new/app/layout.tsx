@@ -4,7 +4,8 @@ import "@styles/theme.scss";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Nav from "@components/Nav";
-import Provider from "@components/Provider";
+import NextSessionProvider from "@components/Provider";
+import ReduxProvider from "@redux/provider";
 
 export const metadata: Metadata = {
   title: "PES Academy",
@@ -21,10 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`}>
       <body>
-        <Provider>
-          <Nav />
-          <div className="app">{children}</div>
-        </Provider>
+        <ReduxProvider>
+          <NextSessionProvider>
+            <Nav />
+            <div className="app">{children}</div>
+          </NextSessionProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
