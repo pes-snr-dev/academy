@@ -4,7 +4,10 @@ import { FaHome, FaUser, FaFolder } from "react-icons/fa";
 
 const Drawer = () => {
   return (
-    <div className="col-auto col-md-3 col-xl-3 px-sm-2 px-0 bg-dark ">
+    <div
+      className="col-auto col-md-3 col-xl-3 px-sm-2 px-0 bg-dark"
+      style={{ height: "50vh" }}
+    >
       <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white">
         <a
           href="/"
@@ -27,7 +30,7 @@ const Drawer = () => {
           </li>
           <li className="nav-item mb-4">
             <Link
-              href="/profile/coach/dashboard"
+              href="/profile/coach/courses"
               className="nav-link align-middle p-0 d-flex align-items-center"
             >
               <FaFolder />
@@ -60,7 +63,7 @@ const Drawer = () => {
               height="30"
               className="rounded-circle"
             />
-            <span className="d-none d-sm-inline mx-1">loser</span>
+            <span className="d-none d-sm-inline mx-1">Name Here</span>
           </a>
           <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
             <li>

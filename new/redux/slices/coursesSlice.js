@@ -12,7 +12,7 @@ export const coursesApiSlice = apiSlice.injectEndpoints({
     }),
     createCourse: builder.mutation({
       query: (data) => ({
-        url: `${COURSES_URL}/`,
+        url: `${COURSES_URL}/new/`,
         method: "POST",
         body: data.formData,
         formData: true,
@@ -30,7 +30,7 @@ export const coursesApiSlice = apiSlice.injectEndpoints({
     }),
     getCourseById: builder.query({
       query: (id) => ({
-        url: `${COURSES_URL}/${id}/`,
+        url: `${COURSES_URL}/${id}`,
         method: "GET",
       }),
       providesTags: ["Course"],
@@ -49,7 +49,7 @@ export const coursesApiSlice = apiSlice.injectEndpoints({
         body: data.formData,
         formData: true,
       }),
-      invalidatesTags: ["Course", "CourseThumbnail"],
+      invalidatesTags: ["Course"],
     }),
   }),
 });

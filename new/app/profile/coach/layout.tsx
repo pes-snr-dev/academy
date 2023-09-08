@@ -1,5 +1,7 @@
 import React from "react";
 import Drawer from "@components/Drawer";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
