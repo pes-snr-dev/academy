@@ -1,7 +1,10 @@
+import fs from "fs";
 import Course from "@models/Course";
 import { connectToDB } from "@utils/db";
 import type { NextApiRequest } from "next";
-import { removeImage, uploadImageFile } from "@utils/files";
+import { removeImage, uploadFile } from "@utils/files";
+import validateImageFile from "@validators/files";
+import { MAX_IMAGE_SIZE, ALLOWED_IMAGE_TYPES } from "@constants";
 
 export const DELETE = async (req: NextApiRequest, { params }) => {
   try {
@@ -46,7 +49,20 @@ export const PUT = async (request: NextApiRequest, { params }) => {
     if (file) {
       const response = await removeImage(`${course.thumbnail}`);
       if (response?.status === 200) {
-        const { status, message } = await uploadImageFile(file);
+        // validate image
+        const { status: validateStatus, message: validateMessage } =
+          validateImageFile(file, ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE);
+        if (validateStatus !== 200)
+          return new Response(JSON.stringify({ error: validateMessage }), {
+            status: 500,
+          });
+
+        const ROOT_DIR = "/uploads/courses";
+        let uploadDir = `./public${ROOT_DIR}`;
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        const { status, message } = await uploadFile(file, uploadDir, ROOT_DIR);
         if (status === 200)
           await Course.findByIdAndUpdate(id, {
             thumbnail: message,
