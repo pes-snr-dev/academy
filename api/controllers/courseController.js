@@ -2,7 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import * as fs from "fs";
 import asyncHandler from "express-async-handler";
-import Course from "../models/CourseModel.js";
+import Course from "../models/course.js";
 import CourseThumbnail from "../models/CourseThumbnail.js";
 import User from "../models/userModel.js";
 

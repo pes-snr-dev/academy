@@ -1,11 +1,14 @@
 import "@styles/globals.css";
 import "@styles/app.scss";
 import "@styles/theme.scss";
+import 'react-toastify/dist/ReactToastify.css';
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Nav from "@components/Nav";
 import NextSessionProvider from "@components/Provider";
 import ReduxProvider from "@redux/provider";
+import ToastProvider from "@/providers/Toast";
 
 export const metadata: Metadata = {
   title: "PES Academy",
@@ -22,12 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`}>
       <body>
-        <ReduxProvider>
+        <ToastProvider>
           <NextSessionProvider>
-            <Nav />
-            <div className="app">{children}</div>
+            <ReduxProvider>
+              <Nav />
+              <div className="app">{children}</div>
+            </ReduxProvider>
           </NextSessionProvider>
-        </ReduxProvider>
+        </ToastProvider>
       </body>
     </html>
   );

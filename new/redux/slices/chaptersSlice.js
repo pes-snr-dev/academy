@@ -19,9 +19,9 @@ export const chaptersApiSlice = apiSlice.injectEndpoints({
     }),
     createChapter: builder.mutation({
       query: (data) => ({
-        url: `${CHAPTER_URL}/course/${data.course}`,
+        url: `${CHAPTER_URL}`,
         method: "POST",
-        body: data.chapter,
+        body: data,
         formData: true,
       }),
       invalidatesTags: ["Chapter"],
@@ -33,12 +33,11 @@ export const chaptersApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Chapter", "ChapterVideo"],
     }),
-    createChapterVideo: builder.mutation({
+    updateChapter: builder.mutation({
       query: (data) => ({
-        url: `${CHAPTER_URL}/${data.chapterId}/${data.versionId}/videos`,
-        method: "POST",
-        body: data.formData,
-        formData: true,
+        url: `${CHAPTER_URL}/${data.id}`,
+        method: "PUT",
+        body: data,
       }),
       invalidatesTags: ["Chapter"],
     }),
@@ -50,5 +49,5 @@ export const {
   useGetChaptersQuery,
   useGetChapterQuery,
   useGetChapterVideosQuery,
-  useCreateChapterVideoMutation,
+  useUpdateChapterMutation,
 } = chaptersApiSlice;
