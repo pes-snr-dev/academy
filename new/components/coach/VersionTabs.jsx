@@ -38,7 +38,11 @@ const VersionTabs = ({ chapterId }) => {
       >
         {versions.map((version, index) => (
           <Tab key={index} eventKey={version._id} title={version.title}>
-            <Videos chapterId={chapterId} versionId={version._id} />
+            <Videos
+              chapterId={chapterId}
+              versionId={version._id}
+              version={version.abbreviation}
+            />
           </Tab>
         ))}
       </Tabs>

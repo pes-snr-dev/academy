@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { FaPenToSquare, FaEye, FaTrash } from "react-icons/fa6";
 import Link from "next/link";
 import {
   useGetCoachCoursesQuery,
@@ -41,21 +42,27 @@ const CoursesList = ({ userInfo }) => {
               <Card.Body>
                 <Card.Title>{course.title}</Card.Title>
                 <Card.Text>{course.description}</Card.Text>
-                <ul className="list-style-0 m-0 p-0 gap-2 d-flex justify-content-end">
-                  <li>
-                    <Link href={`/profile/coach/courses/${course._id}/`}>
-                      <Button variant="primary">Edit</Button>
+                <div className="d-flex justify-content-between">
+                  <div className="flex-grow-1">
+                    <Link href={`/courses/${course._id}/`}>
+                      <FaEye size={25} title="Preview" />
                     </Link>
-                  </li>
-                  <li>
-                    <Button
-                      variant="primary"
-                      onClick={(e) => onDeleteHandler(e, course)}
-                    >
-                      Delete
-                    </Button>
-                  </li>
-                </ul>
+                  </div>
+                  <ul className="list-style-0 m-0 p-0 gap-2 d-flex justify-content-end">
+                    <li>
+                      <Link href={`/profile/coach/courses/${course._id}/`}>
+                        <FaPenToSquare size={25} />
+                      </Link>
+                    </li>
+                    <li>
+                      <FaTrash
+                        size={25}
+                        onClick={(e) => onDeleteHandler(e, course)}
+                        className="text-primary cursor-pointer"
+                      />
+                    </li>
+                  </ul>
+                </div>
               </Card.Body>
             </Card>
           </li>

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-import User from "@models/user";
+import User from "@models/UserModel";
 import { connectToDB } from "@utils/db";
 
 const handler = NextAuth({
@@ -37,7 +37,6 @@ const handler = NextAuth({
 
         return true;
       } catch (error) {
-        console.log("Error checking if user exists: ", error.message);
         return false;
       }
     },

@@ -9,13 +9,14 @@ import CreateChapterVideoModal from "./ChapterVideoModal";
 import { useGetChapterVideosQuery } from "@redux/slices/chaptersSlice";
 import Loader from "@components/Loader";
 import "./Common.css";
+import FetchError from "@components/FetchError";
+import { filterForVersionVideos } from "@services/chapter";
 
-const Videos = ({ chapterId, versionId }) => {
+const Videos = ({ chapterId, version, versionId }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  let versionVideos;
   const {
     data: videos,
     isLoading,
@@ -26,13 +27,14 @@ const Videos = ({ chapterId, versionId }) => {
     refetchOnMountOrArgChange: true,
   });
 
-  if (videos) {
-    versionVideos = videos.filter(function (el) {
-      return el.version === versionId;
-    });
-  }
+  let versionVideos;
 
-  console.log(videos, versionId);
+  if (videos) {
+    // versionVideos = videos.filter(function (el) {
+    //   return el.version === versionId;
+    // });
+    versionVideos = filterForVersionVideos(version, videos);
+  }
 
   if (isLoading) {
     return <Loader />;
@@ -78,16 +80,13 @@ const Videos = ({ chapterId, versionId }) => {
       </>
     );
   } else if (isError) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        {error?.data?.message || error.error || "Something went wrong!"}
-      </div>
-    );
+    return <FetchError error={error} />;
   }
 };
 
 Videos.propTypes = {
   chapterId: PropTypes.string.isRequired,
+  version: PropTypes.string.isRequired,
   versionId: PropTypes.string.isRequired,
 };
 

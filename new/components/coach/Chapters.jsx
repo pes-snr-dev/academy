@@ -66,7 +66,7 @@ const Chapters = ({ course }) => {
                     >
                       <Navbar.Text>
                         <FaEllipsisH size={25} />
-                      </Navbar.Text>
+                      </Navbar.Text>z
                     </Link>
                   </div>
                 </div>

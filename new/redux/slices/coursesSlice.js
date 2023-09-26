@@ -3,6 +3,13 @@ const COURSES_URL = "/api/courses";
 
 export const coursesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getCourses: builder.query({
+      query: () => ({
+        url: `${COURSES_URL}/`,
+        method: "GET",
+      }),
+      providesTags: ["Course"],
+    }),
     getCoachCourses: builder.query({
       query: (id) => ({
         url: `${COURSES_URL}/coach/${id}/`,
@@ -61,4 +68,5 @@ export const {
   useGetCourseByIdQuery,
   useGetCourseThumbnailQuery,
   useUpdateCourseMutation,
+  useGetCoursesQuery,
 } = coursesApiSlice;

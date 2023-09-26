@@ -1,10 +1,12 @@
 import fs from "fs";
-import Course from "@models/Course";
+import Course from "@models/CourseModel";
 import { connectToDB } from "@utils/db";
 import type { NextApiRequest } from "next";
 import { removeImage, uploadFile } from "@utils/files";
 import validateImageFile from "@validators/files";
 import { MAX_IMAGE_SIZE, ALLOWED_IMAGE_TYPES } from "@constants";
+import Chapter from "@models/ChapterModel";
+import User from "@models/UserModel";
 
 export const DELETE = async (req: NextApiRequest, { params }) => {
   try {
@@ -23,16 +25,19 @@ export const DELETE = async (req: NextApiRequest, { params }) => {
   }
 };
 
-// note 200 when no content found return message in catch for better error
+// note 200 when no content found return message instead of catch for better error
 
-export const GET = async (req: NextApiRequest, { params }) => {
+export const GET = async (request: NextApiRequest, { params }) => {
   try {
     await connectToDB();
 
-    const course = await Course.findById(params.id);
+    const course = await Course.findById(params.id)
+      .populate({ path: "coach", model: User })
+      .exec();
+    const chapters = await Chapter.find({ course: course });
+    course.chapters = chapters;
     return new Response(JSON.stringify(course), { status: 200 });
   } catch (error) {
-    console.log(error);
     return new Response(JSON.stringify({ message: error.message }), {
       status: 500,
     });
@@ -43,11 +48,12 @@ export const PUT = async (request: NextApiRequest, { params }) => {
   const formData = await request.formData();
   let data = Object.fromEntries(formData);
   let id = params.id;
-  const { title, description, file } = data;
+  const { title, description, file, headline, transcript } = data;
   try {
     const course = await Course.findById(id);
-    if (file) {
+    if (file && file !== "null") {
       const response = await removeImage(`${course.thumbnail}`);
+
       if (response?.status === 200) {
         // validate image
         const { status: validateStatus, message: validateMessage } =
@@ -68,16 +74,21 @@ export const PUT = async (request: NextApiRequest, { params }) => {
             thumbnail: message,
             title: title,
             description: description,
+            headline: headline,
+            transcript: transcript,
           });
         return new Response(JSON.stringify(course), { status: 200 });
       }
+
       return new Response(JSON.stringify({ message: response.message }), {
         status: 500,
       });
     }
     await Course.findByIdAndUpdate(id, {
-      title: title,
-      description: description,
+      title,
+      description,
+      headline,
+      transcript,
     });
     return new Response(JSON.stringify(course), { status: 200 });
   } catch (error) {

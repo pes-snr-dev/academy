@@ -5,11 +5,11 @@ import { Row, Col, Tab, Tabs } from "react-bootstrap";
 import "react-tabs/style/react-tabs.css";
 import useCourses from "@hooks/useCourses";
 import CourseSlider from "./CourseSlider";
-import { courseType } from "@types";
+import { CourseType } from "@types";
 
 type courseListType = {
   name: string;
-  courses: courseType[];
+  courses: CourseType[];
 };
 
 type CourseSliderListProps = {

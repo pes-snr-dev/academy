@@ -1,0 +1,28 @@
+.player-wrapper {
+  position: relative;
+  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.controls {
+  position: absolute;
+  bottom: 10px;
+  left: 2.5%;
+  right: 2.5%;
+  width: 95%;
+  background: rgb(5, 13, 21, 0.7);
+}
+
+.time-remaining {
+  flex-basis: 5%;
+}
+
+.initial, .end {
+  flex-basis: 20%;
+}
+
