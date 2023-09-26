@@ -1,4 +1,4 @@
-import Course from "@models/Course";
+import Course from "@models/CourseModel";
 import { connectToDB } from "@utils/db";
 import type { NextApiRequest } from "next";
 

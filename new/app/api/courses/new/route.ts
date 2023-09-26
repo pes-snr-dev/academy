@@ -1,5 +1,5 @@
 import fs from "fs";
-import Course from "@models/Course";
+import Course from "@models/CourseModel";
 import { connectToDB } from "@utils/db";
 import type { NextApiRequest } from "next";
 import { uploadFile } from "@utils/files";
@@ -10,7 +10,8 @@ export const POST = async (req: NextApiRequest) => {
   const formData = await req.formData();
   let data = Object.fromEntries(formData);
 
-  const { title, description, coachId, file } = data;
+  const { title, description, cost, coachId, file, headline, transcript } =
+    data;
 
   // validate image
   const { status, message } = validateImageFile(
@@ -46,6 +47,9 @@ export const POST = async (req: NextApiRequest) => {
       title,
       description,
       thumbnail: uploadMessage,
+      cost,
+      headline,
+      transcript,
     });
     await newCourse.save();
 

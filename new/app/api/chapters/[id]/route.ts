@@ -1,4 +1,4 @@
-import Chapter from "@models/Chapter";
+import Chapter from "@models/ChapterModel";
 import { connectToDB } from "@utils/db";
 import { NextApiRequest } from "next";
 
@@ -17,7 +17,6 @@ export const GET = async (req: NextApiRequest, { params }) => {
 export const PUT = async (request: NextApiRequest, { params }) => {
   const { title, description } = await request.json();
   const id = params.id;
-  console.log(id, title, description);
 
   try {
     await connectToDB();

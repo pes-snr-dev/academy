@@ -16,6 +16,20 @@ const CourseSchema = new Schema(
       type: String,
       required: [true, "A thumbnail is required for this course."],
     },
+    cost: {
+      type: Number,
+      required: [true, "How much will you charge this course."],
+    },
+    releaseDate: {
+      type: Date,
+      default: Date.now(),
+    },
+    chapters: [{ type: Schema.Types.ObjectId, ref: "Chapter" }],
+    headline: {
+      type: String,
+      required: [true, "Please add a short introduction to your course."],
+    },
+    transcript: { type: String },
   },
   {
     timestamps: true,

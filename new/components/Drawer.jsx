@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaHome, FaUser, FaFolder } from "react-icons/fa";
+import { FaUser, FaFolder } from "react-icons/fa";
+import { FaGauge } from "react-icons/fa6";
 
 const Drawer = () => {
   return (
@@ -24,7 +25,7 @@ const Drawer = () => {
               href="/profile/coach/dashboard"
               className="nav-link align-middle p-0 d-flex align-items-center"
             >
-              <FaHome />
+              <FaGauge />
               <span className="ms-2 d-none d-sm-inline">Dashboard</span>
             </Link>
           </li>

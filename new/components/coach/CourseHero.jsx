@@ -1,39 +1,48 @@
 "use client";
 
 import PropTypes from "prop-types";
+import Link from "next/link";
 import { Card, Button, Row, Col, Form } from "react-bootstrap";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { FileUploader } from "react-drag-drop-files";
-import {
-  useGetCourseThumbnailQuery,
-  useUpdateCourseMutation,
-} from "@redux/slices/coursesSlice";
+import { useUpdateCourseMutation } from "@redux/slices/coursesSlice";
+import { FaEye } from "react-icons/fa6";
 import Loader from "@components/Loader";
 
 const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
 
 const CourseHero = ({ course }) => {
   const [isEditingCourseInfo, setIsEditingCourseInfo] = useState(false);
-  const [title, setTitle] = useState(course.title);
-  const [description, setDescription] = useState(course.description);
-  const [file, setFile] = useState("");
-  const [updateCourse, { isSuccess, isError, isLoading, error }] =
-    useUpdateCourseMutation();
+  const [data, setData] = useState({
+    title: course.title,
+    description: course.description,
+    file: null,
+    transcript: course.transcript,
+    headline: course.headline,
+    cost: course.cost,
+  });
+  const [updateCourse, { isLoading, error }] = useUpdateCourseMutation();
 
   const handleFileChange = (file) => {
-    setFile(file);
+    handleChange({ file });
   };
 
-  // console.log(response.data);
+  const handleChange = (newData) => {
+    setData((prev) => ({ ...prev, ...newData }));
+  };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (isEditingCourseInfo) {
       let formData = new FormData();
-      formData.append("file", file);
-      formData.append("title", title);
-      formData.append("description", description);
+      formData.append("file", data.file);
+      formData.append("title", data.title);
+      formData.append("cost", data.cost);
+      formData.append("description", data.description);
+      formData.append("headline", data.headline);
+      formData.append("transcript", data.transcript);
+
       try {
         await updateCourse({
           id: course._id,
@@ -44,7 +53,7 @@ const CourseHero = ({ course }) => {
 
         toast.success("Course updated successfuly.");
       } catch (err) {
-        toast.error(err?.data?.message || err.error);
+        toast.error(err?.data?.message || err.error || error.message);
       }
     } else {
       setIsEditingCourseInfo(true);
@@ -61,8 +70,8 @@ const CourseHero = ({ course }) => {
             <Card.Img
               variant="top"
               src={
-                isEditingCourseInfo && file
-                  ? URL.createObjectURL(file)
+                isEditingCourseInfo && data.file
+                  ? URL.createObjectURL(data.file)
                   : course.thumbnail
               }
               height={250}
@@ -75,12 +84,24 @@ const CourseHero = ({ course }) => {
                     className="mb-3"
                     controlId="courseForm.TitleControl"
                   >
+                    <p className="text-danger">{JSON.stringify(error?.data)}</p>
                     <Form.Label>Change Course Title</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={data.title}
+                      onChange={(e) => handleChange({ title: e.target.value })}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="courseForm.Headline">
+                    <Form.Label>Headline</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={data.headline}
+                      onChange={(e) =>
+                        handleChange({ headline: e.target.value })
+                      }
                     />
                   </Form.Group>
                   <Form.Group
@@ -91,10 +112,41 @@ const CourseHero = ({ course }) => {
                     <Form.Control
                       as="textarea"
                       rows={3}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
+                      value={data.description}
+                      onChange={(e) =>
+                        handleChange({ description: e.target.value })
+                      }
                     />
                   </Form.Group>
+
+                  <Form.Group
+                    className="mb-2"
+                    controlId="courseForm.CostControl"
+                  >
+                    <Form.Label>Cost</Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Cost in KSH"
+                      value={data.cost}
+                      onChange={(e) => handleChange({ cost: e.target.value })}
+                    />
+                  </Form.Group>
+
+                  <Form.Group
+                    className="mb-2"
+                    controlId="courseForm.DescriptionControl"
+                  >
+                    <Form.Label>Transcript</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={data.transcript}
+                      onChange={(e) =>
+                        handleChange({ transcript: e.target.value })
+                      }
+                    />
+                  </Form.Group>
+
                   <Form.Group controlId="formFile" className="mb-3">
                     <Form.Label>Choose a different thumbnail</Form.Label>
                     <FileUploader
@@ -111,9 +163,29 @@ const CourseHero = ({ course }) => {
                   <Card.Text>{course.description}</Card.Text>
                 </>
               )}
-              <Button variant="primary" onClick={onSubmitHandler}>
+              <Button
+                variant="primary"
+                onClick={onSubmitHandler}
+                className="me-4"
+              >
                 {isEditingCourseInfo ? "Save Changes" : "Edit Course"}
               </Button>
+              {isEditingCourseInfo && (
+                <Button
+                  variant="primary"
+                  onClick={() => setIsEditingCourseInfo((prev) => !prev)}
+                >
+                  Cancel
+                </Button>
+              )}
+              {!isEditingCourseInfo && (
+                <Link
+                  className="btn btn-primary"
+                  href={`/courses/${course._id}`}
+                >
+                  <FaEye size={25} className="text-secondary" />
+                </Link>
+              )}
             </Card.Body>
           </Form>
         )}

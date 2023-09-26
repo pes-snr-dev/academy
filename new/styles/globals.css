@@ -70,6 +70,18 @@ p.text-with-icon {
   justify-content: center;
 }
 
+.hide {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.show {
+  opacity: 1;
+  transition: opacity 1000ms;
+}
+
 @media (min-width: 640px) {
   .desc {
     font-size: 1.25rem;

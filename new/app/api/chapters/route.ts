@@ -1,9 +1,8 @@
-import Chapter from "@models/Chapter";
+import Chapter from "@models/ChapterModel";
 import { connectToDB } from "@utils/db";
 import { NextApiRequest } from "next";
 
 export const POST = async (req: NextApiRequest) => {
-  console.log("Im i really called");
   const { title, description, course } = await req.json();
 
   try {
