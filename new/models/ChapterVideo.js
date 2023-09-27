@@ -34,6 +34,12 @@ ChapterVideoSchema.pre("findOneAndDelete", async function () {
   if (response?.status !== 200) throw new Error(response.message);
 });
 
+ChapterVideoSchema.pre("deleteMany", async function () {
+  const docToUpdate = await this.model.findOne(this.getQuery());
+  const response = await removeImage(`${docToUpdate.path}`);
+  if (response?.status !== 200) throw new Error(response.message);
+});
+
 const ChapterVideo =
   models.ChapterVideo || model("ChapterVideo", ChapterVideoSchema);
 

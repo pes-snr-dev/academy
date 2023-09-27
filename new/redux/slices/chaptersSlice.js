@@ -41,6 +41,15 @@ export const chaptersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Chapter"],
     }),
+    deleteChapter: builder.mutation({
+      query(id) {
+        return {
+          url: `${CHAPTER_URL}/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Chapter"],
+    }),
   }),
 });
 
@@ -50,4 +59,5 @@ export const {
   useGetChapterQuery,
   useGetChapterVideosQuery,
   useUpdateChapterMutation,
+  useDeleteChapterMutation,
 } = chaptersApiSlice;

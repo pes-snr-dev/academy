@@ -82,6 +82,10 @@ p.text-with-icon {
   transition: opacity 1000ms;
 }
 
+.cursor-delete {
+  cursor: pointer;
+}
+
 @media (min-width: 640px) {
   .desc {
     font-size: 1.25rem;

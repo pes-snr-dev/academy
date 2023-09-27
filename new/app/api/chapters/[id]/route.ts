@@ -28,3 +28,17 @@ export const PUT = async (request: NextApiRequest, { params }) => {
     });
   }
 };
+
+export const DELETE = async (req: NextApiRequest, { params }) => {
+  try {
+    await connectToDB();
+    await Chapter.findOneAndDelete({ _id: params.id });
+    return new Response(JSON.stringify("Course deleted successfully"), {
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify(error.message), {
+      status: 500,
+    });
+  }
+};
