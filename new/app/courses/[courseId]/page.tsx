@@ -33,6 +33,7 @@ export default function CoursePage({ params }) {
   } = useGetCourseByIdQuery(params.courseId);
 
   const [currentVideo, setCurrentVideo] = useState("");
+  const [currentTitle, setCurrentTitle] = useState("");
 
   if (isLoading) return <Loader />;
   if (isError) return <FetchError error={error} />;
@@ -115,7 +116,11 @@ export default function CoursePage({ params }) {
               className="mb-3"
             >
               <Tab eventKey="tableOfContents" title="Table of Contents">
-                <Chapters course={course} setCurrentVideo={setCurrentVideo} />
+                <Chapters
+                  course={course}
+                  setCurrentVideo={setCurrentVideo}
+                  setCurrentTitle={setCurrentTitle}
+                />
               </Tab>
               <Tab eventKey="description" title="Description">
                 {course.description}

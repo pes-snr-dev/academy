@@ -20,6 +20,7 @@ const ChapterVideoSchema = new Schema(
     },
     chapter: { type: Schema.Types.ObjectId, ref: "Chapter", required: true },
     version: { type: Schema.Types.ObjectId, ref: "Version", required: true },
+    position: { type: Number, auto: true },
   },
   {
     timestamps: true,

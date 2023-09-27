@@ -1,9 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Card, Row, Col, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 import Ratio from "react-bootstrap/Ratio";
 import ReactPlayer from "react-player";
-import { FaPlus, FaEdit } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
 import CreateChapterVideoModal from "./ChapterVideoModal";
 import { useGetChapterVideosQuery } from "@redux/slices/chaptersSlice";
@@ -11,11 +12,23 @@ import Loader from "@components/Loader";
 import "./Common.css";
 import FetchError from "@components/FetchError";
 import { filterForVersionVideos } from "@services/chapter";
+import { useDeleteChapterVideoMutation } from "@redux/slices/videoSlice";
 
 const Videos = ({ chapterId, version, versionId }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [deleteCourse] = useDeleteChapterVideoMutation();
+  const onDeleteHandler = async (e, id) => {
+    e.preventDefault();
+    try {
+      await deleteCourse(id).unwrap();
+      toast("Video deleted successfuly");
+    } catch (error) {
+      toast(error);
+    }
+  };
 
   const {
     data: videos,
@@ -57,8 +70,15 @@ const Videos = ({ chapterId, version, versionId }) => {
                   </Ratio>
                   <Card.Body>
                     <Card.Text>{video.title}</Card.Text>
-                    <FaEdit size={25} />
                   </Card.Body>
+                  <Card.Footer className="d-flex gap-3 justify-content-end">
+                    <FaEdit size={25} className="text-primary cursor-pointer" />
+                    <FaTrash
+                      size={25}
+                      className="text-danger cursor-pointer"
+                      onClick={(e) => onDeleteHandler(e, video._id)}
+                    />
+                  </Card.Footer>
                 </Card>
               ))}
           </Col>
