@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import Chapter from "./ChapterModel";
 
 const CourseSchema = new Schema(
   {
@@ -35,6 +36,15 @@ const CourseSchema = new Schema(
     timestamps: true,
   }
 );
+
+CourseSchema.pre("findOneAndDelete", async function () {
+  try {
+    const docToDelete = await this.model.findOne(this.getQuery());
+    await Chapter.deleteMany({ course: docToDelete._id });
+  } catch (error) {
+    return;
+  }
+});
 
 const Course = models.Course || model("Course", CourseSchema);
 

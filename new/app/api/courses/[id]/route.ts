@@ -13,13 +13,13 @@ export const DELETE = async (req: NextApiRequest, { params }) => {
     await connectToDB();
 
     // Find the Course by ID and remove it
-    await Course.findByIdAndRemove(params.id);
+    await Course.findOneAndDelete({ _id: params.id });
 
     return new Response(JSON.stringify("Course deleted successfully"), {
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify("Error deleting Course"), {
+    return new Response(JSON.stringify(error.message), {
       status: 500,
     });
   }

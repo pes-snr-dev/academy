@@ -19,7 +19,8 @@ const CoursesList = ({ userInfo }) => {
   } = useGetCoachCoursesQuery(userInfo.id, {
     refetchOnMountOrArgChange: true,
   });
-  const [deleteCourse] = useDeleteCourseMutation();
+  const [deleteCourse, { isLoading: deleteLoading }] =
+    useDeleteCourseMutation();
 
   const onDeleteHandler = async (e, course) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ const CoursesList = ({ userInfo }) => {
       await deleteCourse(course._id).unwrap();
       toast("Course deleted successfuly");
     } catch (error) {
-      toast(error);
+      toast(error.data);
     }
   };
 
@@ -55,11 +56,15 @@ const CoursesList = ({ userInfo }) => {
                       </Link>
                     </li>
                     <li>
-                      <FaTrash
-                        size={25}
-                        onClick={(e) => onDeleteHandler(e, course)}
-                        className="text-primary cursor-pointer"
-                      />
+                      {deleteLoading ? (
+                        <Loader />
+                      ) : (
+                        <FaTrash
+                          size={25}
+                          onClick={(e) => onDeleteHandler(e, course)}
+                          className="text-primary cursor-pointer"
+                        />
+                      )}
                     </li>
                   </ul>
                 </div>
