@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import { removeImage } from "@utils/files";
 
 const ChapterVideoSchema = new Schema(
   {
@@ -26,6 +27,12 @@ const ChapterVideoSchema = new Schema(
     timestamps: true,
   }
 );
+
+ChapterVideoSchema.pre("findOneAndDelete", async function () {
+  const docToUpdate = await this.model.findOne(this.getQuery());
+  const response = await removeImage(`${docToUpdate.path}`);
+  if (response?.status !== 200) throw new Error(response.message);
+});
 
 const ChapterVideo =
   models.ChapterVideo || model("ChapterVideo", ChapterVideoSchema);

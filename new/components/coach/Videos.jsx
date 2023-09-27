@@ -19,14 +19,15 @@ const Videos = ({ chapterId, version, versionId }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [deleteCourse] = useDeleteChapterVideoMutation();
+  const [deleteCourse, { error: deleteError }] =
+    useDeleteChapterVideoMutation();
   const onDeleteHandler = async (e, id) => {
     e.preventDefault();
     try {
       await deleteCourse(id).unwrap();
       toast("Video deleted successfuly");
-    } catch (error) {
-      toast(error);
+    } catch (err) {
+      toast(err.data || deleteError);
     }
   };
 
