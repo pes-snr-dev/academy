@@ -12,7 +12,17 @@ export const chaptersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Chapter"],
     }),
+    deleteChapterVideo: builder.mutation({
+      query(id) {
+        return {
+          url: `${VIDEO_URL}/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Chapter"],
+    }),
   }),
 });
 
-export const { useCreateChapterVideoMutation } = chaptersApiSlice;
+export const { useCreateChapterVideoMutation, useDeleteChapterVideoMutation } =
+  chaptersApiSlice;
