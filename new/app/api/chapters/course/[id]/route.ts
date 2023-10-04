@@ -5,7 +5,9 @@ import { NextApiRequest } from "next";
 export const GET = async (req: NextApiRequest, { params }) => {
   try {
     await connectToDB();
-    const course = await Chapter.find({ course: params.id });
+    const course = await Chapter.find({ course: params.id })
+      .sort({ chapter_number: 1 })
+      .exec();
     return new Response(JSON.stringify(course), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ message: error.message }), {

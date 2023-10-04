@@ -7,6 +7,8 @@ import validateImageFile from "@validators/files";
 import { MAX_IMAGE_SIZE, ALLOWED_IMAGE_TYPES } from "@constants";
 import Chapter from "@models/ChapterModel";
 import User from "@models/UserModel";
+import ChapterVideo from "@models/ChapterVideo";
+import Version from "@models/Version";
 
 export const DELETE = async (req: NextApiRequest, { params }) => {
   try {
@@ -34,8 +36,18 @@ export const GET = async (request: NextApiRequest, { params }) => {
     const course = await Course.findById(params.id)
       .populate({ path: "coach", model: User })
       .exec();
-    const chapters = await Chapter.find({ course: course });
+    const chapters = await Chapter.find({ course: course }).sort({
+      chapter_number: 1,
+    });
     course.chapters = chapters;
+    const chapterVideosList = [];
+    for (const chapter of chapters) {
+      const chapterVideos = await ChapterVideo.find({
+        chapter: chapter._id,
+      }).populate({ path: "version", model: Version });
+      chapterVideosList.push(...chapterVideos);
+    }
+    course.videos = chapterVideosList;
     return new Response(JSON.stringify(course), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ message: error.message }), {

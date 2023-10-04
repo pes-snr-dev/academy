@@ -3,14 +3,13 @@ import ReactPlayer from "react-player";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { formatTime } from "@utils/misc";
 import "./Player.css";
+import { VIDEO_VERSION_UNION } from "@types";
 
 import Control from "./Control";
 
-const VideoPlayer = ({ videoUrl, title }) => {
+const VideoPlayer = ({ video, handleStepNext, handleStepBack }) => {
   const playerRef = useRef(null);
 
-  // const [isPlaying, setIsPlaying] = useState(false);
-  // const [volume, setVolume] = useState(0.8);
   const [isFullScreen, setisFullScreen] = useState(false);
   const [isAutoplay, setIsAutoplay] = useState(false);
   const [quality, setQuality] = useState("auto");
@@ -130,6 +129,10 @@ const VideoPlayer = ({ videoUrl, title }) => {
     };
   }, []);
 
+  // const handleStepNext = () => {};
+
+  // const handleStepBack = () => {};
+
   return (
     <FullScreen handle={handle}>
       <div
@@ -144,7 +147,7 @@ const VideoPlayer = ({ videoUrl, title }) => {
           onContextMenu={handleContextMenu}
           controls={true}
           ref={playerRef}
-          url={videoUrl}
+          url={video.path}
           playing={isPlaying}
           volume={volume}
           muted={muted}
@@ -186,9 +189,11 @@ const VideoPlayer = ({ videoUrl, title }) => {
           handleNext={handleNext}
           handleVolumeChange={handleVolumeChange}
           timeRemaining={timeRemaining}
-          title={title}
+          title={video.title}
           isFullScreen={isFullScreen}
           handleToggleFullScreen={handleToggleFullScreen}
+          handleStepNext={handleStepNext}
+          handleStepBack={handleStepBack}
         />
       </div>
     </FullScreen>

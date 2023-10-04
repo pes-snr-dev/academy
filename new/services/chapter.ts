@@ -7,6 +7,7 @@ const filterForVersionVideos = (
   let versionVideos;
   if (videos) {
     versionVideos = videos.filter(function (el) {
+      // console.log(el.version.abbreviation, version)
       return el.version.abbreviation === version;
     });
   }
