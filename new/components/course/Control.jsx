@@ -10,7 +10,12 @@ import {
   FaToggleOff,
   FaCog,
 } from "react-icons/fa";
-import { FaRotateRight, FaRotateLeft } from "react-icons/fa6";
+import {
+  FaRotateRight,
+  FaRotateLeft,
+  FaForwardStep,
+  FaBackwardStep,
+} from "react-icons/fa6";
 import { ClassNames, classNames } from "@utils/styles";
 
 const Control = ({
@@ -28,6 +33,8 @@ const Control = ({
   timeRemaining,
   handleToggleFullScreen,
   isFullScreen,
+  handleStepBack,
+  handleStepNext,
 }) => {
   return (
     <div className={classNames("controls p-2", isHovered ? "show" : "hide")}>
@@ -71,6 +78,12 @@ const Control = ({
           <p>{title}</p>
         </div>
         <div className="end d-flex justify-content-end">
+          <button>
+            <FaBackwardStep onClick={handleStepBack} />
+          </button>
+          <button>
+            <FaForwardStep onClick={handleStepNext} />
+          </button>
           <button onClick={handleToggleFullScreen}>
             {isFullScreen ? <FaCompress /> : <FaExpand />}
           </button>

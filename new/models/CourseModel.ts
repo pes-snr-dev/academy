@@ -26,6 +26,7 @@ const CourseSchema = new Schema(
       default: Date.now(),
     },
     chapters: [{ type: Schema.Types.ObjectId, ref: "Chapter" }],
+    videos: [{ type: Schema.Types.ObjectId, ref: "ChapterVideo" }],
     headline: {
       type: String,
       required: [true, "Please add a short introduction to your course."],

@@ -1,15 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useGetCourseByIdQuery } from "@redux/slices/coursesSlice";
-// import  from "react-bootstrap/Ratio";
-import { Col, Row, Container, Ratio } from "react-bootstrap";
+import { Col, Row, Container } from "react-bootstrap";
 import Loader from "@components/Loader";
 import FetchError from "@components/FetchError";
 import NotFound from "@components/NotFound";
 import Player from "@components/course/Player";
 import Chapters from "@components/courses/Chapters";
-
-import ChapterVideoProvider from "@providers/ChapterVideoProvider";
+import useCourseList from "@hooks/useCourseList";
+import { filterForVersionVideos } from "@services/chapter";
 
 const page = ({ params }) => {
   const {
@@ -19,24 +18,27 @@ const page = ({ params }) => {
     isSuccess,
     error,
   } = useGetCourseByIdQuery(params.id);
-  const [videoUrl, setVideoUrl] = useState("");
-  const [version, setVersion] = useState("en");
-  const [currentChapter, setCurrentChapter] = useState("");
-  const [currentVideo, setCurrentVideo] = useState("");
-  const [currentTitle, setCurrentTitle] = useState("");
 
-  const updateCurrentVideo = (newVideo) => {
-    setCurrentVideo(newVideo);
+  const [version, setVersion] = useState("en");
+  const [currentVersionVideos, setCurrentVersionVideos] = useState([]);
+
+  const handleJump = (newVideo) => {
+    const videoIndex = videos.findIndex((item) => item._id === newVideo._id);
+    goTo(videoIndex);
   };
-  const updateCurrentTitle = (newTitle) => {
-    setCurrentTitle(newTitle);
-  };
+
+  const { video, videos, goTo, back, next } =
+    useCourseList(currentVersionVideos);
 
   useEffect(() => {
     if (isSuccess && course) {
-      setCurrentChapter(course.chapters[0]._id);
+      // set the videos to show based on current language version
+      const filteredVideos =
+        filterForVersionVideos(version, course.videos) ?? [];
+      setCurrentVersionVideos([...currentVersionVideos, ...filteredVideos]);
     }
   }, [course]);
+
   if (isLoading) return <Loader />;
   if (isError) return <FetchError error={error} />;
   if (isSuccess && course)
@@ -44,13 +46,19 @@ const page = ({ params }) => {
       <Container fluid>
         <Row>
           <Col md={8}>
-            <Player videoUrl={currentVideo} title={currentTitle} />
+            {video && (
+              <Player
+                video={video}
+                handleStepBack={back}
+                handleStepNext={next}
+              />
+            )}
           </Col>
           <Col md={4}>
             <Chapters
               course={course}
-              setCurrentVideo={updateCurrentVideo}
-              setCurrentTitle={updateCurrentTitle}
+              jump={handleJump}
+              versionVideos={currentVersionVideos}
             />
           </Col>
         </Row>

@@ -1,8 +1,15 @@
 import { Accordion } from "react-bootstrap";
 import ChapterVideos from "@components/courses/ChapterVideos";
-import { CHAPTER_TYPE } from "@types";
+import { CHAPTER_TYPE, VIDEO_VERSION_UNION, CourseType } from "@types";
 
-const Chapters = ({ course, setCurrentVideo, setCurrentTitle }) => {
+type ChaptersProps = {
+  jump: (versionVideo: VIDEO_VERSION_UNION) => void;
+  versionVideos: [VIDEO_VERSION_UNION];
+  chapterId: String;
+  course: CourseType;
+};
+
+const Chapters = ({ course, jump, versionVideos }: ChaptersProps) => {
   return (
     <Accordion defaultActiveKey={[0]} alwaysOpen>
       {course.chapters.map((chapter: CHAPTER_TYPE, index: Number) => (
@@ -11,9 +18,8 @@ const Chapters = ({ course, setCurrentVideo, setCurrentTitle }) => {
           <Accordion.Body>
             <ChapterVideos
               chapterId={chapter._id}
-              version="en"
-              setCurrentVideo={setCurrentVideo}
-              setCurrentTitle={setCurrentTitle}
+              jump={jump}
+              versionVideos={versionVideos}
             />
           </Accordion.Body>
         </Accordion.Item>
