@@ -20,11 +20,14 @@ import FetchError from "@components/FetchError";
 import NotFound from "@components/NotFound";
 import Chapters from "@components/courses/Chapters";
 import { filterForVersionVideos } from "@services/chapter";
+import { useSelector } from "react-redux";
 
 export default function CoursePage({ params }) {
+  const { language } = useSelector((state) => state.prefs);
+
   const [open, setOpen] = useState(false);
   const [key, setKey] = useState("tableOfContents");
-  const [version, setVersion] = useState("en");
+
   const [currentVersionVideos, setCurrentVersionVideos] = useState([]);
 
   const {
@@ -39,7 +42,7 @@ export default function CoursePage({ params }) {
     if (isSuccess && course) {
       // set the videos to show based on current language version
       const filteredVideos =
-        filterForVersionVideos(version, course.videos) ?? [];
+        filterForVersionVideos(language, course.videos) ?? [];
       setCurrentVersionVideos([...currentVersionVideos, ...filteredVideos]);
     }
   }, [course]);

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useGetCourseByIdQuery } from "@redux/slices/coursesSlice";
 import { Col, Row, Container } from "react-bootstrap";
 import Loader from "@components/Loader";
@@ -19,7 +20,9 @@ const page = ({ params }) => {
     error,
   } = useGetCourseByIdQuery(params.id);
 
-  const [version, setVersion] = useState("en");
+  const { language } = useSelector((state) => state.prefs);
+  console.log(language, "the languange in view courses page");
+
   const [currentVersionVideos, setCurrentVersionVideos] = useState([]);
 
   const handleJump = (newVideo) => {
@@ -34,7 +37,7 @@ const page = ({ params }) => {
     if (isSuccess && course) {
       // set the videos to show based on current language version
       const filteredVideos =
-        filterForVersionVideos(version, course.videos) ?? [];
+        filterForVersionVideos(language, course.videos) ?? [];
       setCurrentVersionVideos([...currentVersionVideos, ...filteredVideos]);
     }
   }, [course]);

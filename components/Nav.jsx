@@ -13,6 +13,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import LangaugeSelector from "./LanguageSelector";
 
 const Header = () => {
   const { data: session } = useSession();
@@ -120,6 +121,9 @@ const Header = () => {
                     ))}
                 </>
               )}
+              <div>
+                <LangaugeSelector />
+              </div>
             </Nav>
           </Navbar.Collapse>
         </Container>
