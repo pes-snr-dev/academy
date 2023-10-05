@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaPlayCircle, FaRegBookmark, FaAngleDown } from "react-icons/fa";
 import {
   Row,
@@ -19,10 +19,13 @@ import Loader from "@components/Loader";
 import FetchError from "@components/FetchError";
 import NotFound from "@components/NotFound";
 import Chapters from "@components/courses/Chapters";
+import { filterForVersionVideos } from "@services/chapter";
 
 export default function CoursePage({ params }) {
   const [open, setOpen] = useState(false);
   const [key, setKey] = useState("tableOfContents");
+  const [version, setVersion] = useState("en");
+  const [currentVersionVideos, setCurrentVersionVideos] = useState([]);
 
   const {
     data: course,
@@ -32,8 +35,16 @@ export default function CoursePage({ params }) {
     error,
   } = useGetCourseByIdQuery(params.courseId);
 
-  const [currentVideo, setCurrentVideo] = useState("");
-  const [currentTitle, setCurrentTitle] = useState("");
+  useEffect(() => {
+    if (isSuccess && course) {
+      // set the videos to show based on current language version
+      const filteredVideos =
+        filterForVersionVideos(version, course.videos) ?? [];
+      setCurrentVersionVideos([...currentVersionVideos, ...filteredVideos]);
+    }
+  }, [course]);
+
+  const setCurrentVideo = () => {};
 
   if (isLoading) return <Loader />;
   if (isError) return <FetchError error={error} />;
@@ -116,11 +127,13 @@ export default function CoursePage({ params }) {
               className="mb-3"
             >
               <Tab eventKey="tableOfContents" title="Table of Contents">
-                <Chapters
-                  course={course}
-                  setCurrentVideo={setCurrentVideo}
-                  setCurrentTitle={setCurrentTitle}
-                />
+                {currentVersionVideos && (
+                  <Chapters
+                    course={course}
+                    jump={setCurrentVideo}
+                    versionVideos={currentVersionVideos}
+                  />
+                )}
               </Tab>
               <Tab eventKey="description" title="Description">
                 {course.description}
