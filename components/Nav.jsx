@@ -1,13 +1,5 @@
 "use client";
-import {
-  Navbar,
-  Nav,
-  Container,
-  NavDropdown,
-  Button,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
 import { FaSignInAlt, FaSignOutAlt, FaUserAlt } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
@@ -46,7 +38,7 @@ const Header = () => {
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="ms-auto d-flex align-items-center">
               <NavDropdown title="Courses" id="courses">
                 <NavDropdown.Item>
                   <Link href="/courses/random-id-1" className="no-underline">
@@ -66,9 +58,17 @@ const Header = () => {
                   </Link>
                 </NavDropdown.Item>
               </NavDropdown>
-              <Button href="/courses" variant="secondary rounded-pill">
-                Browse
-              </Button>
+              <Nav.Item className="px-2">
+                <Link href="/courses" className="no-underline">
+                  Browse
+                </Link>
+              </Nav.Item>
+              <Nav.Item className="px-2">
+                <Link href="/pricing" className="no-underline">
+                  Pricing
+                </Link>
+              </Nav.Item>
+
               {session?.user ? (
                 <>
                   <NavDropdown

@@ -1,5 +1,4 @@
 import Form from "react-bootstrap/Form";
-
 import InputGroup from "react-bootstrap/InputGroup";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanguage } from "@redux/slices/prefsSlice";
@@ -13,7 +12,7 @@ const LanguageSelector = () => {
   ];
   const dispatch = useDispatch();
   const { language } = useSelector((state) => state.prefs);
-  console.log(language, "the lang");
+
   languagesOffered.forEach((languageOffered) => {
     if (languageOffered.value === language) {
       languageOffered.selected = true;
@@ -21,11 +20,11 @@ const LanguageSelector = () => {
   });
 
   const handleLanguageChange = async (e) => {
-    window.location.reload();
     const selectedLanguage = e.target.value;
     if (selectedLanguage) {
       dispatch(setLanguage(selectedLanguage));
     }
+    window.location.reload();
   };
 
   return (
