@@ -1,0 +1,10 @@
+.nav-tabs .nav-link.active {
+  color: var(--indian-red);
+}
+.check {
+  width: 50px;
+}
+
+.best-opportunity {
+  background: var(--purple);
+}
